@@ -3,14 +3,23 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+
+import { MenubarModule } from 'primeng/menubar'
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [					
+    AppComponent,
+      LoginComponent,
+      HomeComponent,
+      NavbarComponent
+   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MenubarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
