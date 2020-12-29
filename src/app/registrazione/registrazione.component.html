@@ -1,0 +1,42 @@
+<p-card header="Registrazione"
+  [style]="{'background-color':'#DDFFB2', 'width':'27rem', 'margin-top':'5rem', 'margin-left':'auto', 'margin-right':'auto'}">
+  <div style="margin-bottom: 1rem;">
+    <label>Username</label>
+    <div>
+      <input pInputText [(ngModel)]="atleta.username" />
+    </div>
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <label>Password</label>
+    <div>
+      <input type="password" pPassword [(ngModel)]="atleta.password" />
+    </div>
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <label>Nome</label>
+    <div>
+      <input pInputText [(ngModel)]="atleta.nome" />
+    </div>
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <label>Cognome</label>
+    <div>
+      <input pInputText [(ngModel)]="atleta.cognome" />
+    </div>
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <label>Telefono</label>
+    <div>
+      <input pInputText [(ngModel)]="atleta.telefono" />
+    </div>
+  </div>
+
+  <button style="margin-right: 1rem;" pButton type="button" label="Registrati" class="p-button-success"
+    (click)="registrati()"></button>
+  <button style="margin-right: 1rem;" pButton type="button" label="Annulla" class="p-button-warning"
+    (click)="annulla()"></button>
+
+</p-card>
+
+
+<p-toast position="top-center" key="tc" (onClose)="vaiAllaHome()"></p-toast>

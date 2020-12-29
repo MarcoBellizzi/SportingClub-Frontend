@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+
+<div style="margin-left: 2rem; margin-right: 2rem; margin-top: 1rem;">
+    <div style="text-align: center; margin-bottom: 1rem;">
+        Giorno
+        <div>
+            <p-calendar [(ngModel)]="giorno"></p-calendar>
+        </div>
+    </div>
+    <p-table [columns]="campi" [value]="fasceOrarie" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header" let-varCampo>
+            <tr>
+                <th>Fascia Oraria</th>
+                <th *ngFor="let campo of varCampo">
+                    {{campo.nome}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-fasciaOraria let-varCampo="columns">
+            <tr>
+                <td>{{fasciaOraria.inizio}} - {{fasciaOraria.fine}}</td>
+                <td *ngFor="let campo of varCampo">
+                    {{campo.id}} 
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

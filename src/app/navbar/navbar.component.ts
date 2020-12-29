@@ -9,33 +9,77 @@ import { MenuItem } from 'primeng/api';
 })
 export class NavbarComponent implements OnInit {
 
-  items: MenuItem[]=[];
+  items: MenuItem[] = [];
 
   constructor(
-    private route:Router
+    private route: Router
   ) { }
 
   ngOnInit() {
-      this.items = [
-          {
-            label: 'Home',
-            icon: 'pi pi-home',
-            command: (event: any) => {
-              this.redirect('home');  
+    this.items = [
+      {
+        label: 'Home',
+        icon: 'pi pi-home',
+        command: (event: any) => {
+          this.redirect('home');
+        }
+      },
+      {
+        label: 'Prenotazione',
+        icon: 'pi pi-book',
+        command: (event: any) => {
+          if (sessionStorage.getItem("user")) {
+            this.redirect('prenotazione');
+          }
+          else {
+            this.redirect('login');
+          }
+        }
+      },
+      {
+        label: 'Profilo',
+        icon: 'pi pi-user',
+        command: (event: any) => {
+          if (sessionStorage.getItem("user")) {
+            this.redirect('profilo');
+          }
+          else {
+            this.redirect('login');
+          }
+        }
+      }
+    ]
+
+    if (sessionStorage.getItem("user")) {
+      this.items.push(
+        {
+          label: 'Logout',
+          icon: 'pi pi-sign-out',
+          command: (event: any) => {
+            sessionStorage.removeItem("user");
+            if(this.route.url === '/home') {
+              window.location.reload();
             }
-          },
-          {
-              label: 'Prenotazione',
-              icon: 'pi pi-book'
-          },
-          {
-            label: 'Logout',
-            icon: 'pi pi-power-off',
-            command: (event: any) => {
-              this.redirect('login');
+            else {
+              this.redirect('home');
             }
           }
-      ];
+        }
+      )
+    }
+    else {
+      this.items.push(
+        {
+          label: 'LogIn',
+          icon: 'pi pi-sign-in',
+          command: (event: any) => {
+            this.redirect('login');
+          }
+        }
+      )
+    }
+
+
   }
 
   redirect(target: string): void {
