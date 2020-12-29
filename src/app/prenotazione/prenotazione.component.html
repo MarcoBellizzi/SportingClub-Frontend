@@ -2,9 +2,10 @@
 
 <div style="margin-left: 2rem; margin-right: 2rem; margin-top: 1rem;">
     <div style="text-align: center; margin-bottom: 1rem;">
-        Giorno
         <div>
-            <p-calendar [(ngModel)]="giorno"></p-calendar>
+            Giorno <p-calendar  [(ngModel)]="giorno"></p-calendar>
+            <button style="margin-left: 2rem;" pButton type="button" label="Aggiorna"
+                class="p-button-primary" (click)="aggiornaPrenotazioni()"></button>
         </div>
     </div>
     <p-table [columns]="campi" [value]="fasceOrarie" styleClass="p-datatable-sm">
@@ -20,9 +21,23 @@
             <tr>
                 <td>{{fasciaOraria.inizio}} - {{fasciaOraria.fine}}</td>
                 <td *ngFor="let campo of varCampo">
-                    {{campo.id}} 
+                    <div *ngIf="isPrenotato(fasciaOraria,campo) && tuaPrenotazione(fasciaOraria,campo)">
+                        <button style="margin-right: 1rem;" pButton type="button" label="Annulla"
+                            class="p-button-warning" (click)="annullaPrenotazione(fasciaOraria,campo)"></button> 
+                    </div>
+                    <div *ngIf="isPrenotato(fasciaOraria,campo) && !tuaPrenotazione(fasciaOraria,campo)">
+                        <button style="margin-right: 1rem;" pButton type="button" label="Occupato"
+                            class="p-button-danger"></button>
+                    </div>
+                    <div *ngIf="!isPrenotato(fasciaOraria,campo)">
+                        <button style="margin-right: 1rem;" pButton type="button" label="Prenota"
+                            class="p-button-primary" (click)="prenota(fasciaOraria,campo)"></button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+
+
+<p-toast position="top-center" key="tc" (onClose)="refresh()"></p-toast>
