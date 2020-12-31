@@ -25,6 +25,13 @@ export class NavbarComponent implements OnInit {
         }
       },
       {
+        label: 'Struttura',
+        icon: 'pi pi-eye',
+        command: (event: any) => {
+          this.redirect('struttura');
+        }
+      },
+      {
         label: 'Prenotazione',
         icon: 'pi pi-book',
         command: (event: any) => {

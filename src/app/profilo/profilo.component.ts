@@ -23,4 +23,8 @@ export class ProfiloComponent implements OnInit {
     )
   }
 
+  isAdmin(): boolean {
+    return <boolean> this.atleta.admin;
+  }
+
 }

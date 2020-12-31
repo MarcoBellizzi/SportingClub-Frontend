@@ -1,42 +1,86 @@
 <p-card header="Registrazione"
-  [style]="{'background-color':'#DDFFB2', 'width':'27rem', 'margin-top':'5rem', 'margin-left':'auto', 'margin-right':'auto'}">
-  <div style="margin-bottom: 1rem;">
-    <label>Username</label>
-    <div>
-      <input pInputText [(ngModel)]="atleta.username" />
-    </div>
-  </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Password</label>
-    <div>
-      <input type="password" pPassword [(ngModel)]="atleta.password" />
-    </div>
-  </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Nome</label>
-    <div>
-      <input pInputText [(ngModel)]="atleta.nome" />
-    </div>
-  </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Cognome</label>
-    <div>
-      <input pInputText [(ngModel)]="atleta.cognome" />
-    </div>
-  </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Telefono</label>
-    <div>
-      <input pInputText [(ngModel)]="atleta.telefono" />
-    </div>
-  </div>
+  [style]="{'background-color':'#e6ffff', 'width':'27rem', 'margin-top':'3rem', 'margin-left':'auto', 'margin-right':'auto'}">
 
-  <button style="margin-right: 1rem;" pButton type="button" label="Registrati" class="p-button-success"
-    (click)="registrati()"></button>
-  <button style="margin-right: 1rem;" pButton type="button" label="Annulla" class="p-button-warning"
-    (click)="annulla()"></button>
+  <form #f="ngForm" (ngSubmit)="f.form.valid && registrati()" novalidate>
+
+    <div style="margin-bottom: 1rem;">
+      <label>Username</label>
+      <div class="form-group">
+        <input pInputText class="form-control" id="inUsername" name="inUsername" #inUsername="ngModel" required
+          minlength="3" [(ngModel)]="atleta.username" [ngClass]="{'is-invalid': f.submitted && inUsername.invalid }" />
+        <div *ngIf="inUsername.dirty && inUsername.touched && inUsername.invalid">
+          Lunghezza minima 3
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label>Password</label>
+      <div class="form-group">
+        <input pPassword type="password" class="form-control" id="inPassword" name="inPassword" #inPassword="ngModel" required
+          minlength="3" [(ngModel)]="atleta.password" [ngClass]="{'is-invalid': f.submitted && inPassword.invalid }" />
+        <div *ngIf="inPassword.dirty && inPassword.touched && inPassword.invalid">
+          Lunghezza minima 3
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label>Nome</label>
+      <div class="form-group">
+        <input pInputText class="form-control" id="inNome" name="inNome" #inNome="ngModel" required minlength="3"
+          [(ngModel)]="atleta.nome" [ngClass]="{'is-invalid': f.submitted && inNome.invalid }" />
+        <div *ngIf="inNome.dirty && inNome.touched && inNome.invalid">
+          Lunghezza minima 3
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label>Cognome</label>
+      <div class="form-group">
+        <input pInputText class="form-control" id="inCognome" name="inCognome" #inCognome="ngModel" required
+          minlength="3" minlength="3" [(ngModel)]="atleta.cognome"
+          [ngClass]="{'is-invalid': f.submitted && inCognome.invalid }" />
+        <div *ngIf="inCognome.dirty && inCognome.touched && inCognome.invalid">
+          Lunghezza minima 3
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label>Telefono</label>
+      <div class="form-group">
+        <input pInputText class="form-control" id="inTelefono" name="inTelefono" #inTelefono="ngModel" required
+          minlength="=10" maxlength="10" pattern="[0-9]{10}" [(ngModel)]="atleta.telefono"
+          [ngClass]="{'is-invalid': f.submitted && inTelefono.invalid }" />
+        <div *ngIf="inTelefono.dirty && inTelefono.touched && inTelefono.invalid">
+          Solo numeri permessi, lunghezza 10
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label>Email</label>
+      <div class="form-group">
+        <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="atleta.email"
+          [ngClass]="{'is-invalid': f.submitted && inEmail.invalid }" />
+        <div *ngIf="inEmail.dirty && inEmail.touched && inEmail.invalid">
+          Formato email non permesso
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button pButton style="margin-right: 1rem;" type="submit" [disabled]="f.invalid" label="Registrati"
+        class="p-button-success"></button>
+      <button style="margin-right: 1rem;" pButton type="button" label="Annulla" class="p-button-warning"
+        (click)="annulla()"></button>
+    </div>
+
+  </form>
 
 </p-card>
-
 
 <p-toast position="top-center" key="tc" (onClose)="vaiAllaHome()"></p-toast>

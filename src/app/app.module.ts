@@ -12,6 +12,7 @@ import { CardModule } from 'primeng/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import { PanelModule } from 'primeng/panel';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -21,17 +22,19 @@ import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
 import { RegistrazioneComponent } from './registrazione/registrazione.component';
 import { MessageService } from 'primeng/api';
 import { ProfiloComponent } from './profilo/profilo.component';
+import { StrutturaComponent } from './struttura/struttura.component';
 
 
 @NgModule({
-  declarations: [										
+  declarations: [											
     AppComponent,
       LoginComponent,
       HomeComponent,
       NavbarComponent,
       PrenotazioneComponent,
       RegistrazioneComponent,
-      ProfiloComponent
+      ProfiloComponent,
+      StrutturaComponent
    ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { ProfiloComponent } from './profilo/profilo.component';
     CardModule,
     BrowserAnimationsModule,
     TableModule,
-    CalendarModule
+    CalendarModule,
+    PanelModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

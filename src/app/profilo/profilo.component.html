@@ -1,7 +1,12 @@
 <app-navbar></app-navbar>
 
+<div *ngIf="isAdmin()" style="margin-top: 1rem; margin-left: 3rem; text-align: center;">
+  <h2>Sei un amministratore dello Sporting Club</h2>
+  Puoi Controllare i profili di chi ha prenotato i campi, rimuovere le prenotazioni ....
+</div>
+
 <p-card header="Profilo"
-  [style]="{'background-color':'#DDFFB2', 'width':'27rem', 'margin-top':'3rem', 'margin-left':'auto', 'margin-right':'auto'}">
+  [style]="{'background-color':'#e6ffff', 'width':'27rem', 'margin-top':'3rem', 'margin-left':'auto', 'margin-right':'auto'}">
   <div style="margin-bottom: 1rem;">
     <label>Nome: {{atleta.nome}}</label>
   </div>
@@ -13,5 +18,8 @@
   </div>
   <div style="margin-bottom: 1rem;">
     <label>Telefono: {{atleta.telefono}}</label>
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <label>Email: {{atleta.email}}</label>
   </div>
 </p-card>

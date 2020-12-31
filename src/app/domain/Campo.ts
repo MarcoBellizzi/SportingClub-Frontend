@@ -1,4 +1,4 @@
-export class Campo {
+export interface Campo {
     id?: number;
     nome?: string;
 }
