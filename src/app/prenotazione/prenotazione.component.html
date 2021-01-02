@@ -60,10 +60,20 @@
 
 <p-dialog header="Aggiungi nuova prenotazione" [(visible)]="visualizzaAddPrenotazione">
     <div style="height: 20rem;">
-        <p-dropdown [options]="atleti" [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="username">
-        </p-dropdown>
-        <button pButton type="button" style="margin-left: 2rem;" label="Prenota" class="p-button-primary"
-            (click)="aggiungiPrenotazione()"></button>
+        <form #f="ngForm" (ngSubmit)="f.form.valid && aggiungiPrenotazione()" novalidate>
+            <div class="form-group">
+                <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
+                    [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti"
+                    [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="username">
+                </p-dropdown>
+                <div *ngIf="inAtleta.dirty && inAtleta.touched && inAtleta.invalid">
+                    Seleziona un atleta
+                </div>
+                <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f.invalid" label="Salva"
+                    class="p-button-primary">
+                </button>
+            </div>
+        </form>
     </div>
 </p-dialog>
 

@@ -85,6 +85,17 @@ export class ProfiloComponent implements OnInit {
     );
   }
 
+  salda(debito: Debito) {
+    this.debitoService.salda(<number> debito.id).subscribe(
+      response => {
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'debito non saldato' });
+      },
+      err => {
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service message', detail: 'debito saldato' });
+      }
+    );
+  }
+
   refresh(): void {
     window.location.reload();
   }

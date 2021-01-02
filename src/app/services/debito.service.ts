@@ -24,4 +24,8 @@ export class DebitoService {
   addDebito(debito: Debito): Observable<Debito> {
     return this.httpClient.post<Debito>(`${environment.API_URL}/sporting/debito/add`, debito);
   }
+
+  salda(debitoId: number) {
+    return this.httpClient.delete(`${environment.API_URL}/sporting/debito/salda?debitoId=${debitoId}`)
+  }
 }
