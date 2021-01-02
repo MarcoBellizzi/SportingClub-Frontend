@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Atleta } from '../domain/Atleta';
 import { Campo } from '../domain/Campo';
 import { FasciaOraria } from '../domain/FasciaOraria';
 import { Prenotazione } from '../domain/Prenotazione';
@@ -19,6 +20,16 @@ export class PrenotazioneComponent implements OnInit {
   fasceOrarie: FasciaOraria[] = [];
   giorno: Date = new Date();
   prenotazioni: Prenotazione[] = [];
+  atleti: Atleta[] = [];
+  visualizzaPrenotazione: boolean = false;
+  visualizzaAddPrenotazione: boolean = false;
+  atleta: Atleta = {nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false};
+  prenotazione: Prenotazione = {
+    atleta:{nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false},
+    campo:{nome:""},
+    fasciaOraria:{inizio:0, fine:0},
+    giorno:new Date()
+  };
 
   constructor(
     private campoService: CampoService,
@@ -39,11 +50,17 @@ export class PrenotazioneComponent implements OnInit {
         this.fasceOrarie = response;
       }
     );
-    this.aggiornaPrenotazioni()
+    this.atletaService.getAtleta(<string> sessionStorage.getItem("user")).subscribe(
+      response => {
+        this.atleta = response;
+      }
+    );
+    this.aggiornaPrenotazioni();
   }
 
   aggiornaPrenotazioni() {
     this.giorno.setHours(0,0,0,0);
+    this.giorno.setDate(this.giorno.getDate() +1);
     this.prenotazioneService.getPrenotazioni(this.giorno).subscribe(
       response => {
         this.prenotazioni = response;
@@ -70,12 +87,32 @@ export class PrenotazioneComponent implements OnInit {
     );
   }
 
+  aggiungiPrenotazione() {
+    this.prenotazioneService.save(this.prenotazione).subscribe(
+      response => {
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione effettuata' })
+      },
+      err => {
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
+      }
+    )
+  }
+
   annullaPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
     this.prenotazioneService.annullaPrenotazione(<number>fasciaOraria.id, <number>campo.id).subscribe(
       response => {},
       err => {
         this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione annullata' })
      
+      }
+    )
+  }
+
+  eliminaPrenotazione() {
+    this.prenotazioneService.annullaPrenotazione(<number>this.prenotazione.fasciaOraria.id, <number>this.prenotazione.campo.id).subscribe(
+      response => {},
+      err => {
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione annullata' });
       }
     )
   }
@@ -104,6 +141,34 @@ export class PrenotazioneComponent implements OnInit {
 
   refresh(): void {
     window.location.reload();
+  }
+
+  isAdmin(): boolean {
+    return <boolean> this.atleta.admin;
+  }
+
+  showPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
+    this.prenotazioni.forEach(prenotazione => {
+      if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
+        this.prenotazione = prenotazione;
+      }
+    });
+    this.visualizzaPrenotazione = true;
+  }
+
+  showAddPrenotazione(fasciaOraria:FasciaOraria, campo: Campo) {
+    this.prenotazione = {
+      atleta:{nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false},
+      campo: campo,
+      fasciaOraria: fasciaOraria,
+      giorno: this.giorno
+    };
+    this.atletaService.getAtleti().subscribe(
+      data => {
+        this.atleti = data;
+      }
+    );
+    this.visualizzaAddPrenotazione = true;
   }
 
 }

@@ -4,8 +4,8 @@ import { FasciaOraria } from "./FasciaOraria";
 
 export interface Prenotazione {
     id?: number;
-    atleta?: Atleta;
-    campo?: Campo;
-    fasciaOraria?: FasciaOraria;
-    giorno?: Date;
+    atleta: Atleta;
+    campo: Campo;
+    fasciaOraria: FasciaOraria;
+    giorno: Date;
 }

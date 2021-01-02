@@ -3,9 +3,9 @@
 <div style="margin-left: 3rem; margin-right: 3rem; margin-top: 1rem; margin-bottom: 2rem;">
     <div style="text-align: center; margin-bottom: 1rem;">
         <div>
-            Giorno  &nbsp; &nbsp; <p-calendar  [(ngModel)]="giorno"></p-calendar>
-            <button style="margin-left: 2rem;" pButton type="button" label="Aggiorna"
-                class="p-button-primary" (click)="aggiornaPrenotazioni()"></button>
+            Giorno &nbsp; &nbsp; <p-calendar [(ngModel)]="giorno"></p-calendar>
+            <button style="margin-left: 2rem;" pButton type="button" label="Aggiorna" class="p-button-primary"
+                (click)="aggiornaPrenotazioni()"></button>
         </div>
     </div>
     <p-table [columns]="campi" [value]="fasceOrarie" styleClass="p-datatable-sm">
@@ -21,23 +21,50 @@
             <tr>
                 <td>{{fasciaOraria.inizio}} - {{fasciaOraria.fine}}</td>
                 <td *ngFor="let campo of varCampo">
-                    <div *ngIf="isPrenotato(fasciaOraria,campo) && tuaPrenotazione(fasciaOraria,campo)">
-                        <button style="margin-right: 1rem;" pButton type="button" label="Annulla"
-                            class="p-button-warning" (click)="annullaPrenotazione(fasciaOraria,campo)"></button> 
+
+                    <div *ngIf="isAdmin()">
+                        <div *ngIf="!isPrenotato(fasciaOraria,campo)">
+                            <button pButton type="button" label="Prenota" class="p-button-primary"
+                                (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
+                        </div>
+                        <div *ngIf="isPrenotato(fasciaOraria,campo)">
+                            <button pButton type="button" label="Visualizza" class="p-button-danger"
+                                (click)="showPrenotazione(fasciaOraria, campo)"></button>
+                        </div>
                     </div>
-                    <div *ngIf="isPrenotato(fasciaOraria,campo) && !tuaPrenotazione(fasciaOraria,campo)">
-                        <button style="margin-right: 1rem;" pButton type="button" label="Occupato"
-                            class="p-button-danger"></button>
+
+                    <div *ngIf="!isAdmin()">
+                        <div *ngIf="isPrenotato(fasciaOraria,campo) && tuaPrenotazione(fasciaOraria,campo)">
+                            <button pButton type="button" label="Annulla" class="p-button-warning"
+                                (click)="annullaPrenotazione(fasciaOraria,campo)"></button>
+                        </div>
+                        <div *ngIf="isPrenotato(fasciaOraria,campo) && !tuaPrenotazione(fasciaOraria,campo)">
+                            <button pButton type="button" label="Occupato" class="p-button-danger"></button>
+                        </div>
+                        <div *ngIf="!isPrenotato(fasciaOraria,campo)">
+                            <button pButton type="button" label="Prenota" class="p-button-primary"
+                                (click)="prenota(fasciaOraria,campo)"></button>
+                        </div>
                     </div>
-                    <div *ngIf="!isPrenotato(fasciaOraria,campo)">
-                        <button style="margin-right: 1rem;" pButton type="button" label="Prenota"
-                            class="p-button-primary" (click)="prenota(fasciaOraria,campo)"></button>
-                    </div>
+
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
 
+<p-dialog header="Prenotazione" [(visible)]="visualizzaPrenotazione">
+    <h2>{{prenotazione.atleta.nome}} {{prenotazione.atleta.cognome}}</h2>
+    <button pButton type="button" label="Elimina" class="p-button-danger" (click)="eliminaPrenotazione()"></button>
+</p-dialog>
+
+<p-dialog header="Aggiungi nuova prenotazione" [(visible)]="visualizzaAddPrenotazione">
+    <div style="height: 20rem;">
+        <p-dropdown [options]="atleti" [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="username">
+        </p-dropdown>
+        <button pButton type="button" style="margin-left: 2rem;" label="Prenota" class="p-button-primary"
+            (click)="aggiungiPrenotazione()"></button>
+    </div>
+</p-dialog>
 
 <p-toast position="top-center" key="tc" (onClose)="refresh()"></p-toast>

@@ -5,21 +5,96 @@
   Puoi Controllare i profili di chi ha prenotato i campi, rimuovere le prenotazioni ....
 </div>
 
-<p-card header="Profilo"
-  [style]="{'background-color':'#e6ffff', 'width':'27rem', 'margin-top':'3rem', 'margin-left':'auto', 'margin-right':'auto'}">
-  <div style="margin-bottom: 1rem;">
-    <label>Nome: {{atleta.nome}}</label>
+<div class="p-grid" style="margin-top: 2rem; margin-left: 3rem; margin-right: 3rem;">
+  <div class="p-col-4">
+    <p-card header="Profilo" [style]="{'background-color':'#f8f9fa'}">
+      <div style="margin-bottom: 1rem;">
+        <label>Nome: {{atleta.nome}}</label>
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <label>Cognome: {{atleta.cognome}}</label>
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <label>Username: {{atleta.username}}</label>
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <label>Telefono: {{atleta.telefono}}</label>
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <label>Email: {{atleta.email}}</label>
+      </div>
+    </p-card>
   </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Cognome: {{atleta.cognome}}</label>
+  <div class="p-col-4">
+    <p-card header="Prenotazioni in corso" [style]="{'background-color':'#f8f9fa'}">
+      <p-table [value]="prenotazioni">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Giorno</th>
+            <th>Ora</th>
+            <th>Campo</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-prenotazione>
+          <tr>
+            <td>{{prenotazione.giorno}}</td>
+            <td>{{prenotazione.fasciaOraria.inizio}} - {{prenotazione.fasciaOraria.fine}}</td>
+            <td>{{prenotazione.campo.nome}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
   </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Username: {{atleta.username}}</label>
+  <div class="p-col-4">
+    <p-card header="Pagamenti in sospeso" [style]="{'background-color':'#f8f9fa'}">
+      <div *ngIf="isAdmin()">
+        <button pButton type="button" label="Aggiungi" class="p-button-primary"
+          (click)="visualizzaAggiungiDebito()"></button>
+      </div>
+      <p-table [value]="debiti">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Atleta</th>
+            <th>Importo</th>
+            <th>Descrizione</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-debito>
+          <tr>
+            <td>{{debito.atleta.nome}} {{debito.atleta.cognome}}</td>
+            <td>€ {{debito.importo}}</td>
+            <td>{{debito.descrizione}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
   </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Telefono: {{atleta.telefono}}</label>
+</div>
+
+<p-dialog header="Aggiungi nuovo debito" [(visible)]="aggiungiDebito">
+  <div style="height: 20rem;">
+    <div>
+      <label>Atleta</label>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <p-dropdown [options]="atleti" [(ngModel)]="debito.atleta" optionLabel="username" placeholder="username">
+      </p-dropdown>
+    </div>
+    <div>
+      <label>Importo</label>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <input pInputText [(ngModel)]="debito.importo" />
+    </div>
+    <div>
+      <label>Descrizione</label>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <input pInputText [(ngModel)]="debito.descrizione" />
+    </div>
+    <button pButton type="button" style="margin-left: 2rem;" label="Salva" class="p-button-primary"
+      (click)="salvaDebito()"></button>
   </div>
-  <div style="margin-bottom: 1rem;">
-    <label>Email: {{atleta.email}}</label>
-  </div>
-</p-card>
+</p-dialog>
+
+<p-toast position="top-center" key="tc" (onClose)="refresh()"></p-toast>

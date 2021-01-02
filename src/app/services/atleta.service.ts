@@ -27,4 +27,8 @@ export class AtletaService {
     return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/atleta?username=${username}`);
   }
 
+  getAtleti(): Observable<Atleta[]> {
+    return this.httpClient.get<Atleta[]>(`${environment.API_URL}/sporting/atleti`);
+  }
+
 }

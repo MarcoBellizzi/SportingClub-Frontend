@@ -11,7 +11,7 @@ import { AtletaService } from '../services/atleta.service';
 })
 export class RegistrazioneComponent implements OnInit {
 
-  atleta: Atleta = {};
+  atleta: Atleta = {id:0, nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false};
 
   constructor(
     private route: Router,
