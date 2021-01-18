@@ -3,6 +3,6 @@ import { Atleta } from "./Atleta";
 export interface Debito {
     id?: number;
     atleta: Atleta;
-    importo: number;
+    importo?: number;
     descrizione: string;
 }

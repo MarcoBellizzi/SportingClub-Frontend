@@ -3,9 +3,7 @@
 <div style="margin-left: 3rem; margin-right: 3rem; margin-top: 1rem; margin-bottom: 2rem;">
     <div style="text-align: center; margin-bottom: 1rem;">
         <div>
-            Giorno &nbsp; &nbsp; <p-calendar [(ngModel)]="giorno"></p-calendar>
-            <button style="margin-left: 2rem;" pButton type="button" label="Aggiorna" class="p-button-primary"
-                (click)="aggiornaPrenotazioni()"></button>
+            Giorno &nbsp; &nbsp; <p-calendar [(ngModel)]="giorno" (onSelect)="aggiornaPrenotazioni()"></p-calendar>
         </div>
     </div>
     <p-table [columns]="campi" [value]="fasceOrarie" styleClass="p-datatable-sm">
@@ -28,8 +26,15 @@
                                 (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
                         </div>
                         <div *ngIf="isPrenotato(fasciaOraria,campo)">
-                            <button pButton type="button" label="Visualizza" class="p-button-danger"
-                                (click)="showPrenotazione(fasciaOraria, campo)"></button>
+                            <div *ngIf="getAdminPrenotazione(fasciaOraria,campo)">
+                                <button pButton type="button" label=" " class="p-button-warning"
+                                    (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                            </div>
+                            <div *ngIf="!getAdminPrenotazione(fasciaOraria,campo)">
+                                <button pButton type="button" label=" " class="p-button-danger"
+                                    (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                            </div>
+
                         </div>
                     </div>
 
@@ -77,4 +82,4 @@
     </div>
 </p-dialog>
 
-<p-toast position="top-center" key="tc" (onClose)="refresh()"></p-toast>
+<p-toast position="bottom-left" key="tc"></p-toast>

@@ -15,13 +15,13 @@ import { PrenotazioneService } from '../services/prenotazione.service';
 })
 export class ProfiloComponent implements OnInit {
 
-  atleta: Atleta = { nome: "", cognome: "", telefono: 0, email: "", username: "", password: "", admin: false };
+  atleta: Atleta = { nome: "", cognome: "", email: "", password: "", admin: false };
   prenotazioni: Prenotazione[] = [];
   debiti: Debito[] = [];
   aggiungiDebito: boolean = false;
   debito: Debito = {
-    atleta: {nome: "", cognome: "", telefono: 0, email: "", username: "", password: "", admin: false },
-    importo: 0, descrizione:""
+    atleta: {nome: "", cognome: "", email: "", password: "", admin: false },
+    descrizione:""
   }
   atleti: Atleta[] = [];
 
@@ -33,7 +33,7 @@ export class ProfiloComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.atletaService.getAtleta(<string>sessionStorage.getItem("user")).subscribe(
+    this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string> sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.atleta = response;
         let giorno = new Date();

@@ -11,7 +11,7 @@ import { AtletaService } from '../services/atleta.service';
 })
 export class RegistrazioneComponent implements OnInit {
 
-  atleta: Atleta = {id:0, nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false};
+  atleta: Atleta = {id:0, nome:"", cognome:"", email:"", password:"", admin:false};
 
   constructor(
     private route: Router,
@@ -38,7 +38,7 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   vaiAllaHome() {
-    sessionStorage.setItem("user", <string>this.atleta.username);
+    sessionStorage.setItem("nome", <string>this.atleta.nome);
     this.route.navigate(['home']);
   }
 

@@ -4,12 +4,13 @@
   <form #f="ngForm" (ngSubmit)="f.form.valid && registrati()" novalidate>
 
     <div style="margin-bottom: 1rem;">
-      <label>Username</label>
+      <label>Email</label>
       <div class="form-group">
-        <input pInputText class="form-control" id="inUsername" name="inUsername" #inUsername="ngModel" required
-          minlength="3" [(ngModel)]="atleta.username" [ngClass]="{'is-invalid': f.submitted && inUsername.invalid }" />
-        <div *ngIf="inUsername.dirty && inUsername.touched && inUsername.invalid">
-          Lunghezza minima 3
+        <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="atleta.email"
+          [ngClass]="{'is-invalid': f.submitted && inEmail.invalid }" />
+        <div *ngIf="inEmail.dirty && inEmail.touched && inEmail.invalid">
+          Formato email non permesso
         </div>
       </div>
     </div>
@@ -56,18 +57,6 @@
           [ngClass]="{'is-invalid': f.submitted && inTelefono.invalid }" />
         <div *ngIf="inTelefono.dirty && inTelefono.touched && inTelefono.invalid">
           Solo numeri permessi, lunghezza 10
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-bottom: 1rem;">
-      <label>Email</label>
-      <div class="form-group">
-        <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="atleta.email"
-          [ngClass]="{'is-invalid': f.submitted && inEmail.invalid }" />
-        <div *ngIf="inEmail.dirty && inEmail.touched && inEmail.invalid">
-          Formato email non permesso
         </div>
       </div>
     </div>

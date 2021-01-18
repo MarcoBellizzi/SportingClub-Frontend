@@ -11,7 +11,7 @@ import { AtletaService } from '../services/atleta.service';
 })
 export class LoginComponent implements OnInit {
 
-  username: string = "";
+  email:string = "";
   password: string = "";
 
   constructor(
@@ -24,9 +24,10 @@ export class LoginComponent implements OnInit {
   }
 
   logIn() {
-    this.atletaService.login(this.username, this.password).subscribe(
+    this.atletaService.login(this.email, this.password).subscribe(
       response => {
-        sessionStorage.setItem("user", this.username);   // perchè non response.username ??
+        sessionStorage.setItem("nome", response.nome);
+        sessionStorage.setItem("cognome", response.cognome)
         this.route.navigate(['home']);
       },
       err => {

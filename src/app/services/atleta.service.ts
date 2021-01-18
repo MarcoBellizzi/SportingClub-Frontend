@@ -12,19 +12,16 @@ export class AtletaService {
     private httpClient: HttpClient
   ) { }
 
-  login(username: string, password: string): Observable<Atleta> {
-    let params = new HttpParams();
-    params = params.set('username', username);
-    params = params.set('password', password);
-    return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/login`, {params});
+  login(email:string, password: string): Observable<Atleta> {
+    return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/login?email=${email}&password=${password}`);
   }
 
   save(atleta: Atleta): Observable<Atleta> {
     return this.httpClient.post<Atleta>(`${environment.API_URL}/sporting/atleta/save`, atleta);
   }
 
-  getAtleta(username: string): Observable<Atleta> {
-    return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/atleta?username=${username}`);
+  getAtleta(nome: string, cognome:string): Observable<Atleta> {
+    return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/atleta?nome=${nome}&cognome=${cognome}`);
   }
 
   getAtleti(): Observable<Atleta[]> {

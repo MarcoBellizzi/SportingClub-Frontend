@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
         label: 'Prenotazione',
         icon: 'pi pi-book',
         command: (event: any) => {
-          if (sessionStorage.getItem("user")) {
+          if (sessionStorage.getItem("nome")) {
             this.redirect('prenotazione');
           }
           else {
@@ -47,7 +47,7 @@ export class NavbarComponent implements OnInit {
         label: 'Profilo',
         icon: 'pi pi-user',
         command: (event: any) => {
-          if (sessionStorage.getItem("user")) {
+          if (sessionStorage.getItem("nome")) {
             this.redirect('profilo');
           }
           else {
@@ -57,13 +57,14 @@ export class NavbarComponent implements OnInit {
       }
     ]
 
-    if (sessionStorage.getItem("user")) {
+    if (sessionStorage.getItem("nome")) {
       this.items.push(
         {
           label: 'Logout',
           icon: 'pi pi-sign-out',
           command: (event: any) => {
-            sessionStorage.removeItem("user");
+            sessionStorage.removeItem("nome");
+            sessionStorage.removeItem("cognome");
             if(this.route.url === '/home') {
               window.location.reload();
             }

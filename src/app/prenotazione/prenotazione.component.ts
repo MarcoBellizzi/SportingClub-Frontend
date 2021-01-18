@@ -23,11 +23,11 @@ export class PrenotazioneComponent implements OnInit {
   atleti: Atleta[] = [];
   visualizzaPrenotazione: boolean = false;
   visualizzaAddPrenotazione: boolean = false;
-  atleta: Atleta = {nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false};
+  atleta: Atleta = {nome:"", cognome:"", email:"", password:"", admin:false};
   prenotazione: Prenotazione = {
-    atleta:{nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false},
+    atleta:{nome:"", cognome:"", email:"", password:"", admin:false},
     campo:{nome:""},
-    fasciaOraria:{inizio:0, fine:0},
+    fasciaOraria:{inizio:"", fine:""},
     giorno:new Date()
   };
 
@@ -50,7 +50,7 @@ export class PrenotazioneComponent implements OnInit {
         this.fasceOrarie = response;
       }
     );
-    this.atletaService.getAtleta(<string> sessionStorage.getItem("user")).subscribe(
+    this.atletaService.getAtleta(<string> sessionStorage.getItem("nome"), <string> sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.atleta = response;
       }
@@ -59,27 +59,31 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   aggiornaPrenotazioni() {
-    this.giorno.setHours(0,0,0,0);
-    this.giorno.setDate(this.giorno.getDate() +1);
+    this.giorno.setHours(0,0,0,0);  // importante
+    this.giorno.setDate(this.giorno.getDate()+1);  // perchè il back end lo legge uno in meno
     this.prenotazioneService.getPrenotazioni(this.giorno).subscribe(
       response => {
         this.prenotazioni = response;
       }
     );
+    this.giorno.setDate(this.giorno.getDate()-1);  // ripristino perchè non chiamo il refresh
   }
 
   prenota(fasciaOraria: FasciaOraria, campo: Campo) {
-    this.atletaService.getAtleta(<string>sessionStorage.getItem("user")).subscribe(
+    this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string> sessionStorage.getItem("cognome")).subscribe(
       response => {
+        this.giorno.setDate(this.giorno.getDate()+1); 
         let prenotazione: Prenotazione = { atleta: response, campo: campo, fasciaOraria: fasciaOraria, giorno: this.giorno };
         this.prenotazioneService.save(prenotazione).subscribe(
           response => {
-            this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione effettuata' })
+            this.aggiornaPrenotazioni();
+            this.messageService.add({ key: 'tc', severity: 'success', summary: 'Esito', detail: 'prenotazione effettuata' })
           },
           err => {
             this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
           }
         )
+        this.giorno.setDate(this.giorno.getDate()-1);
       },
       err => {
         this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'Atleta non trovato' });
@@ -90,31 +94,41 @@ export class PrenotazioneComponent implements OnInit {
   aggiungiPrenotazione() {
     this.prenotazioneService.save(this.prenotazione).subscribe(
       response => {
+        this.aggiornaPrenotazioni();
         this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione effettuata' })
       },
       err => {
         this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
       }
     )
+    this.giorno.setDate(this.giorno.getDate()-1);
+    this.visualizzaAddPrenotazione = false;
   }
 
   annullaPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
-    this.prenotazioneService.annullaPrenotazione(<number>fasciaOraria.id, <number>campo.id).subscribe(
+    this.giorno.setDate(this.giorno.getDate()+1); 
+    this.prenotazioneService.annullaPrenotazione(<number>fasciaOraria.id, <number>campo.id, this.giorno).subscribe(
       response => {},
       err => {
+        this.aggiornaPrenotazioni();
         this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione annullata' })
-     
       }
     )
+    this.giorno.setDate(this.giorno.getDate()-1); 
+    
   }
 
   eliminaPrenotazione() {
-    this.prenotazioneService.annullaPrenotazione(<number>this.prenotazione.fasciaOraria.id, <number>this.prenotazione.campo.id).subscribe(
+    this.giorno.setDate(this.giorno.getDate()+1); 
+    this.prenotazioneService.annullaPrenotazione(<number>this.prenotazione.fasciaOraria.id, <number>this.prenotazione.campo.id, this.giorno).subscribe(
       response => {},
       err => {
+        this.aggiornaPrenotazioni();
         this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione annullata' });
       }
     )
+    this.giorno.setDate(this.giorno.getDate()-1);
+    this.visualizzaPrenotazione = false;
   }
 
   isPrenotato(fasciaOraria: FasciaOraria, campo: Campo): boolean {
@@ -131,16 +145,13 @@ export class PrenotazioneComponent implements OnInit {
     let tua: boolean = false;
     this.prenotazioni.forEach(prenotazione => {
       if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
-        if(prenotazione.atleta?.username === sessionStorage.getItem("user")) {
+        if(prenotazione.atleta?.nome === sessionStorage.getItem("nome") && 
+            prenotazione.atleta?.cognome === sessionStorage.getItem("cognome")) {
           tua = true;
         }
       }
     });
     return tua;
-  }
-
-  refresh(): void {
-    window.location.reload();
   }
 
   isAdmin(): boolean {
@@ -157,8 +168,9 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   showAddPrenotazione(fasciaOraria:FasciaOraria, campo: Campo) {
+    this.giorno.setDate(this.giorno.getDate()+1);
     this.prenotazione = {
-      atleta:{nome:"", cognome:"", telefono:0, email:"", username:"", password:"", admin:false},
+      atleta:{nome:"", cognome:"", email:"", password:"", admin:false},
       campo: campo,
       fasciaOraria: fasciaOraria,
       giorno: this.giorno
@@ -169,6 +181,26 @@ export class PrenotazioneComponent implements OnInit {
       }
     );
     this.visualizzaAddPrenotazione = true;
+  }
+
+  getNomePrenotazione(fasciaOraria: FasciaOraria, campo: Campo): string{
+    let nome:string = "";
+    this.prenotazioni.forEach(prenotazione => {
+      if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
+        nome += prenotazione.atleta.nome + " " + prenotazione.atleta.cognome;
+      }
+    });
+    return nome;
+  }
+
+  getAdminPrenotazione(fasciaOraria: FasciaOraria, campo: Campo): boolean {
+    let admin: boolean = false;
+    this.prenotazioni.forEach(prenotazione => {
+      if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
+        admin = prenotazione.atleta.admin;
+      }
+    });
+    return admin;
   }
 
 }

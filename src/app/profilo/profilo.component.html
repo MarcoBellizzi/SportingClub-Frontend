@@ -16,9 +16,6 @@
         <label>Cognome: {{atleta.cognome}}</label>
       </div>
       <div style="margin-bottom: 1rem;">
-        <label>Username: {{atleta.username}}</label>
-      </div>
-      <div style="margin-bottom: 1rem;">
         <label>Telefono: {{atleta.telefono}}</label>
       </div>
       <div style="margin-bottom: 1rem;">
@@ -32,9 +29,9 @@
       <p-table [value]="prenotazioni">
         <ng-template pTemplate="header">
           <tr>
-            <th>Giorno</th>
-            <th>Ora</th>
-            <th>Campo</th>
+            <th width="20%">Giorno</th>
+            <th width="20%">Ora</th>
+            <th width="60%">Campo</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-prenotazione>
@@ -52,7 +49,7 @@
 </div>
 
 <div class="p-grid" style="margin-top: 1rem; margin-left: 3rem; margin-right: 3rem; margin-bottom: 2rem;">
-  <div class="p-col-12">
+  <div class="p-col-9">
     <p-card header="Pagamenti in sospeso" [style]="{'background-color':'#f8f9fa'}">
       <div *ngIf="isAdmin()">
         <button pButton type="button" label="Aggiungi" class="p-button-primary" (click)="visualizzaAggiungiDebito()">
@@ -73,9 +70,11 @@
             <td>€ {{debito.importo}}</td>
             <td>{{debito.descrizione}}</td>
             <td>
-              <button pButton type="button" label="Salda" class="p-button-warning"
-                (click)="salda(debito)">
-              </button>
+              <div *ngIf="isAdmin()">
+                <button pButton type="button" label="Salda" class="p-button-warning"
+                  (click)="salda(debito)">
+                </button>
+              </div>
             </td>
           </tr>
         </ng-template>
@@ -93,7 +92,7 @@
         <div class="form-group">
           <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
             [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti" [(ngModel)]="debito.atleta"
-            optionLabel="username" placeholder="username">
+            optionLabel="username" placeholder="Atleta">
           </p-dropdown>
           <div *ngIf="inAtleta.dirty && inAtleta.touched && inAtleta.invalid">
             Seleziona un atleta
@@ -134,4 +133,4 @@
   </div>
 </p-dialog>
 
-<p-toast position="top-center" key="tc" (onClose)="refresh()"></p-toast>
+<p-toast position="bottom-left" key="tc" (onClose)="refresh()"></p-toast>

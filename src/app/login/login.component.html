@@ -3,12 +3,12 @@
 
     <form #f="ngForm" (ngSubmit)="f.form.valid && logIn()" novalidate>
         <div style="margin-bottom: 1rem;">
-            <label>Username</label>
+            <label>Email</label>
             <div class="form-group">
                 <input pInputText class="form-control" id="inUsername" name="inUsername" #inUsername="ngModel" required
-                    [ngClass]="{'is-invalid': f.submitted && inUsername.invalid }" [(ngModel)]="username" />
+                    [ngClass]="{'is-invalid': f.submitted && inUsername.invalid }" [(ngModel)]="email" />
                 <div *ngIf="inUsername.dirty && inUsername.touched && inUsername.invalid">
-                    Username richiesto
+                    Nome richiesto
                 </div>
             </div>
         </div>

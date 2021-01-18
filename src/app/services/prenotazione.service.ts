@@ -21,8 +21,8 @@ export class PrenotazioneService {
     return this.httpClient.put<Prenotazione[]>(`${environment.API_URL}/sporting/prenotazioni/giorno`, giorno);
   }
 
-  annullaPrenotazione(fasciaOraria: number, campo: number) {
-    return this.httpClient.delete(`${environment.API_URL}/sporting/prenotazione/annulla?fasciaOrariaId=${fasciaOraria}&campoId=${campo}`);
+  annullaPrenotazione(fasciaOraria: number, campo: number, giorno:Date) {
+    return this.httpClient.put(`${environment.API_URL}/sporting/prenotazione/annulla?fasciaOrariaId=${fasciaOraria}&campoId=${campo}`, giorno);
   }
   
   getPrenotazioniAfter(atletaId: number, giorno: Date) {
