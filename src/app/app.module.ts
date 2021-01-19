@@ -15,6 +15,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { PanelModule } from 'primeng/panel'; 
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { TabViewModule } from 'primeng/tabview';
 
 
 import { AppComponent } from './app.component';
@@ -55,7 +56,8 @@ import { StrutturaComponent } from './struttura/struttura.component';
     CalendarModule,
     PanelModule,
     DialogModule,
-    DropdownModule
+    DropdownModule,
+    TabViewModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

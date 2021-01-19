@@ -25,10 +25,10 @@ export class RegistrazioneComponent implements OnInit {
   registrati() {
     this.atletaService.save(this.atleta).subscribe(
       response => {
-        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'Utente registrato' });
+        this.messageService.add({ sticky: true, key: 'tc', severity: 'success', summary: 'Utente registrato', detail: 'Benvenuto allo Sporting Club!' });
       },
       any => {
-        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'Registrazione utente fallita' });
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Esito', detail: 'Registrazione utente fallita' });
       }
     )
   }
@@ -38,7 +38,8 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   vaiAllaHome() {
-    sessionStorage.setItem("nome", <string>this.atleta.nome);
+    sessionStorage.setItem("nome", <string> this.atleta.nome);
+    sessionStorage.setItem("cognome", <string> this.atleta.cognome);
     this.route.navigate(['home']);
   }
 

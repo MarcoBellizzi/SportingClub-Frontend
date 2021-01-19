@@ -7,7 +7,7 @@
       <label>Email</label>
       <div class="form-group">
         <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="atleta.email"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="atleta.email"
           [ngClass]="{'is-invalid': f.submitted && inEmail.invalid }" />
         <div *ngIf="inEmail.dirty && inEmail.touched && inEmail.invalid">
           Formato email non permesso
@@ -72,4 +72,4 @@
 
 </p-card>
 
-<p-toast position="top-center" key="tc" (onClose)="vaiAllaHome()"></p-toast>
+<p-toast position="center" key="tc" (onClose)="vaiAllaHome()"></p-toast>

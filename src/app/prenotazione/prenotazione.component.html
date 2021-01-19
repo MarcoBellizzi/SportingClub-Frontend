@@ -22,8 +22,13 @@
 
                     <div *ngIf="isAdmin()">
                         <div *ngIf="!isPrenotato(fasciaOraria,campo)">
-                            <button pButton type="button" label="Prenota" class="p-button-primary"
-                                (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
+                            <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
+                                <button pButton type="button" label="Prenota" class="p-button-primary"
+                                    (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
+                            </div>
+                            <ng-template #nonPrenotabile>
+                                <button pButton type="button" label="Prenota" class="p-button-secondary"></button>
+                            </ng-template>
                         </div>
                         <div *ngIf="isPrenotato(fasciaOraria,campo)">
                             <div *ngIf="getAdminPrenotazione(fasciaOraria,campo)">
@@ -59,20 +64,27 @@
 </div>
 
 <p-dialog header="Prenotazione" [(visible)]="visualizzaPrenotazione">
-    <h2>{{prenotazione.atleta.nome}} {{prenotazione.atleta.cognome}}</h2>
+    <h3>{{prenotazione.atleta.nome}} {{prenotazione.atleta.cognome}}</h3>
+    <div style="margin-bottom: 1rem;"> {{prenotazione.atleta.email}} </div>
+    <div style="margin-bottom: 3rem;"> {{prenotazione.atleta.telefono}} </div>
     <button pButton type="button" label="Elimina" class="p-button-danger" (click)="eliminaPrenotazione()"></button>
 </p-dialog>
 
 <p-dialog header="Aggiungi nuova prenotazione" [(visible)]="visualizzaAddPrenotazione">
     <div style="height: 20rem;">
-        <form #f="ngForm" (ngSubmit)="f.form.valid && aggiungiPrenotazione()" novalidate>
+        <form #f="ngForm" (ngSubmit)="f.form.valid && prenotazioneMultipla()" novalidate>
             <div class="form-group">
-                <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
-                    [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti"
-                    [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="username">
-                </p-dropdown>
-                <div *ngIf="inAtleta.dirty && inAtleta.touched && inAtleta.invalid">
-                    Seleziona un atleta
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
+                        [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti"
+                        [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="atleta">
+                    </p-dropdown>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
+                        [ngClass]="{'is-invalid': f.submitted && durata.invalid }" [options]="fasceDisponibili"
+                        [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
+                    </p-dropdown>
                 </div>
                 <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f.invalid" label="Salva"
                     class="p-button-primary">

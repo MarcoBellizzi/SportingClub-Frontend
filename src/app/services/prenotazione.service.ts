@@ -29,4 +29,8 @@ export class PrenotazioneService {
     return this.httpClient.put<Prenotazione[]>(`${environment.API_URL}/sporting/prenotazioni/after?atletaId=${atletaId}`, giorno);
   }
 
+  prenotazioneMultipla(prenotazione: Prenotazione, durata: number): Observable<Prenotazione[]> {
+    return this.httpClient.post<Prenotazione[]>(`${environment.API_URL}/sporting/prenotazioni/multipla?durata=${durata}`, prenotazione);
+  }
+
 } 

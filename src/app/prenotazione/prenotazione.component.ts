@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Atleta } from '../domain/Atleta';
 import { Campo } from '../domain/Campo';
 import { FasciaOraria } from '../domain/FasciaOraria';
+import { Ora } from '../domain/Ora';
 import { Prenotazione } from '../domain/Prenotazione';
 import { AtletaService } from '../services/atleta.service';
 import { CampoService } from '../services/campo.service';
@@ -30,6 +31,14 @@ export class PrenotazioneComponent implements OnInit {
     fasciaOraria:{inizio:"", fine:""},
     giorno:new Date()
   };
+  fasceDisponibili:Ora[] = [
+    {numero:2, stringa:"1 ora"}, 
+    {numero:3, stringa:"1 ora e mezza"},
+    {numero:4, stringa:"2 ore"}, 
+    {numero:5, stringa:"2 ore e mezza"},
+    {numero:6, stringa:"3 ore"}
+  ];
+  durataa: Ora = {} ;
 
   constructor(
     private campoService: CampoService,
@@ -96,6 +105,20 @@ export class PrenotazioneComponent implements OnInit {
       response => {
         this.aggiornaPrenotazioni();
         this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione effettuata' })
+      },
+      err => {
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
+      }
+    )
+    this.giorno.setDate(this.giorno.getDate()-1);
+    this.visualizzaAddPrenotazione = false;
+  }
+
+  prenotazioneMultipla() {
+    this.prenotazioneService.prenotazioneMultipla(this.prenotazione, <number> this.durataa.numero).subscribe(
+      data => {
+        this.aggiornaPrenotazioni();
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Esito', detail: 'prenotazioni effettuate' })
       },
       err => {
         this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
@@ -201,6 +224,15 @@ export class PrenotazioneComponent implements OnInit {
       }
     });
     return admin;
+  }
+
+  prenotabile(fasciaOraria: FasciaOraria, campo: Campo): boolean {
+    let prenotabile: boolean = true;
+    this.prenotazioni.forEach(prenotazione => {
+      if(prenotazione.campo.id == campo.id && prenotazione.fasciaOraria.id == <number> fasciaOraria.id +1)
+        prenotabile = false;
+    })
+    return prenotabile;
   }
 
 }

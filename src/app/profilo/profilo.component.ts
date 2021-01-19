@@ -20,8 +20,8 @@ export class ProfiloComponent implements OnInit {
   debiti: Debito[] = [];
   aggiungiDebito: boolean = false;
   debito: Debito = {
-    atleta: {nome: "", cognome: "", email: "", password: "", admin: false },
-    descrizione:""
+    atleta: { nome: "", cognome: "", email: "", password: "", admin: false },
+    descrizione: ""
   }
   atleti: Atleta[] = [];
 
@@ -33,7 +33,7 @@ export class ProfiloComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string> sessionStorage.getItem("cognome")).subscribe(
+    this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string>sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.atleta = response;
         let giorno = new Date();
@@ -43,7 +43,7 @@ export class ProfiloComponent implements OnInit {
             this.prenotazioni = data;
           }
         );
-        if(this.atleta.admin) {
+        if (this.atleta.admin) {
           this.debitoService.getAllDebiti().subscribe(
             data => {
               this.debiti = data;
@@ -51,12 +51,17 @@ export class ProfiloComponent implements OnInit {
           );
         }
         else {
-          this.debitoService.getDebiti(<number> this.atleta.id).subscribe(
+          this.debitoService.getDebiti(<number>this.atleta.id).subscribe(
             data => {
               this.debiti = data;
             }
           );
         }
+      }
+    );
+    this.atletaService.getAtleti().subscribe(
+      data => {
+        this.atleti = data;
       }
     );
   }
@@ -66,38 +71,44 @@ export class ProfiloComponent implements OnInit {
   }
 
   visualizzaAggiungiDebito() {
-    this.atletaService.getAtleti().subscribe(
-      data => {
-        this.atleti = data;
-      }
-    );
+    this.debito = {
+      atleta: { nome: "", cognome: "", email: "", password: "", admin: false },
+      descrizione: ""
+    }
     this.aggiungiDebito = true;
   }
 
   salvaDebito() {
     this.debitoService.addDebito(this.debito).subscribe(
       response => {
-        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'debito salvato' });
+        this.debitoService.getAllDebiti().subscribe(
+          data => {
+            this.debiti = data;
+          }
+        );
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Esito', detail: 'debito salvato' });
       },
       err => {
-        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'debito non salvato' });
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Esito', detail: 'debito non salvato' });
       }
     );
+    this.aggiungiDebito = false;
   }
 
   salda(debito: Debito) {
-    this.debitoService.salda(<number> debito.id).subscribe(
+    this.debitoService.salda(<number>debito.id).subscribe(
       response => {
-        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'debito non saldato' });
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Errore', detail: 'debito non saldato' });
       },
       err => {
-        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service message', detail: 'debito saldato' });
+        this.debitoService.getAllDebiti().subscribe(
+          data => {
+            this.debiti = data;
+          }
+        );
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Esito', detail: 'debito saldato' });
       }
     );
-  }
-
-  refresh(): void {
-    window.location.reload();
   }
 
 }
