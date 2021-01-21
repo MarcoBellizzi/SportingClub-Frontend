@@ -8,4 +8,6 @@ export interface Prenotazione {
     campo: Campo;
     fasciaOraria: FasciaOraria;
     giorno: Date;
+    libera: boolean;
+    nome?: string;
 }

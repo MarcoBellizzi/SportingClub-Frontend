@@ -16,6 +16,7 @@ import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { TabViewModule } from 'primeng/tabview';
+import { CarouselModule } from 'primeng/carousel';
 
 
 import { AppComponent } from './app.component';
@@ -57,7 +58,8 @@ import { StrutturaComponent } from './struttura/struttura.component';
     PanelModule,
     DialogModule,
     DropdownModule,
-    TabViewModule
+    TabViewModule,
+    CarouselModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

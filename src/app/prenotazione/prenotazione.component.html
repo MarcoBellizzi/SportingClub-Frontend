@@ -32,8 +32,14 @@
                         </div>
                         <div *ngIf="isPrenotato(fasciaOraria,campo)">
                             <div *ngIf="getAdminPrenotazione(fasciaOraria,campo)">
-                                <button pButton type="button" label=" " class="p-button-warning"
-                                    (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                <div *ngIf="getLiberaPrenotazione(fasciaOraria,campo); else noLibera">
+                                    <button pButton type="button" label=" " class="p-button-help"
+                                        (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                </div>
+                                <ng-template #noLibera>
+                                    <button pButton type="button" label=" " class="p-button-warning"
+                                        (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                </ng-template>
                             </div>
                             <div *ngIf="!getAdminPrenotazione(fasciaOraria,campo)">
                                 <button pButton type="button" label=" " class="p-button-danger"
@@ -72,25 +78,81 @@
 
 <p-dialog header="Aggiungi nuova prenotazione" [(visible)]="visualizzaAddPrenotazione">
     <div style="height: 20rem;">
-        <form #f="ngForm" (ngSubmit)="f.form.valid && prenotazioneMultipla()" novalidate>
-            <div class="form-group">
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
-                        [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti"
-                        [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="atleta">
-                    </p-dropdown>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
-                        [ngClass]="{'is-invalid': f.submitted && durata.invalid }" [options]="fasceDisponibili"
-                        [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
-                    </p-dropdown>
-                </div>
-                <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f.invalid" label="Salva"
-                    class="p-button-primary">
-                </button>
-            </div>
-        </form>
+
+        <p-tabView>
+
+            <p-tabPanel header="Maestro">
+                <form #f1="ngForm" (ngSubmit)="f1.form.valid && prenotazioneMultipla()" novalidate>
+                    <div class="form-group">
+                        <div style="margin-bottom: 2rem;">
+                            <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
+                                [ngClass]="{'is-invalid': f1.submitted && inAtleta.invalid }" [options]="admin"
+                                [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="maestro">
+                            </p-dropdown>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
+                                [ngClass]="{'is-invalid': f1.submitted && durata.invalid }" [options]="fasceDisponibili"
+                                [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
+                            </p-dropdown>
+                        </div>
+                        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f1.invalid" label="Salva"
+                            class="p-button-primary">
+                        </button>
+                    </div>
+                </form>
+            </p-tabPanel>
+
+            <p-tabPanel header="Atleta">
+                <form #f2="ngForm" (ngSubmit)="f2.form.valid && prenotazioneMultipla()" novalidate>
+                    <div class="form-group">
+                        <div style="margin-bottom: 2rem;">
+                            <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
+                                [ngClass]="{'is-invalid': f2.submitted && inAtleta.invalid }" [options]="atleti"
+                                [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="atleta">
+                            </p-dropdown>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
+                                [ngClass]="{'is-invalid': f2.submitted && durata.invalid }" [options]="fasceDisponibili"
+                                [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
+                            </p-dropdown>
+                        </div>
+                        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f2.invalid" label="Salva"
+                            class="p-button-primary">
+                        </button>
+                    </div>
+                </form>
+            </p-tabPanel>
+
+            <p-tabPanel header="Libera">
+                <form #f3="ngForm" (ngSubmit)="f3.form.valid && prenotazioneLiberaMultipla()" novalidate>
+                    <div class="form-group">
+                        <div style="margin-bottom: 2rem;">
+                            <input pInputText class="form-control" id="inDescrizione" name="inDescrizione"
+                                #inDescrizione="ngModel" required
+                                [ngClass]="{'is-invalid': f3.submitted && inDescrizione.invalid }"
+                                [(ngModel)]="prenotazione.nome" placeholder="inserire una descrizione" />
+                            <div *ngIf="inDescrizione.dirty && inDescrizione.touched && inDescrizione.invalid">
+                                Inserire una desrizione
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
+                                [ngClass]="{'is-invalid': f3.submitted && durata.invalid }" [options]="fasceDisponibili"
+                                [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
+                            </p-dropdown>
+                        </div>
+                        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f3.invalid" label="Salva"
+                            class="p-button-primary">
+                        </button>
+                    </div>
+                </form>
+            </p-tabPanel>
+
+        </p-tabView>
+
+
     </div>
 </p-dialog>
 

@@ -28,4 +28,12 @@ export class AtletaService {
     return this.httpClient.get<Atleta[]>(`${environment.API_URL}/sporting/atleti`);
   }
 
+  getAdmin(): Observable<Atleta[]> {
+    return this.httpClient.get<Atleta[]>(`${environment.API_URL}/sporting/atleti/admin`)
+  }
+
+  getNotAdmin(): Observable<Atleta[]> {
+    return this.httpClient.get<Atleta[]>(`${environment.API_URL}/sporting/atleti/notAdmin`)
+  }
+
 }

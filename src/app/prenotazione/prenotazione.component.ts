@@ -22,6 +22,7 @@ export class PrenotazioneComponent implements OnInit {
   giorno: Date = new Date();
   prenotazioni: Prenotazione[] = [];
   atleti: Atleta[] = [];
+  admin: Atleta[] = [];
   visualizzaPrenotazione: boolean = false;
   visualizzaAddPrenotazione: boolean = false;
   atleta: Atleta = {nome:"", cognome:"", email:"", password:"", admin:false};
@@ -29,7 +30,8 @@ export class PrenotazioneComponent implements OnInit {
     atleta:{nome:"", cognome:"", email:"", password:"", admin:false},
     campo:{nome:""},
     fasciaOraria:{inizio:"", fine:""},
-    giorno:new Date()
+    giorno:new Date(),
+    libera: false
   };
   fasceDisponibili:Ora[] = [
     {numero:2, stringa:"1 ora"}, 
@@ -82,7 +84,7 @@ export class PrenotazioneComponent implements OnInit {
     this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string> sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.giorno.setDate(this.giorno.getDate()+1); 
-        let prenotazione: Prenotazione = { atleta: response, campo: campo, fasciaOraria: fasciaOraria, giorno: this.giorno };
+        let prenotazione: Prenotazione = { atleta: response, campo: campo, fasciaOraria: fasciaOraria, giorno: this.giorno, libera:false };
         this.prenotazioneService.save(prenotazione).subscribe(
           response => {
             this.aggiornaPrenotazioni();
@@ -128,6 +130,22 @@ export class PrenotazioneComponent implements OnInit {
     this.visualizzaAddPrenotazione = false;
   }
 
+  prenotazioneLiberaMultipla() {
+    this.prenotazione.atleta = this.atleta;
+    this.prenotazione.libera = true;
+    this.prenotazioneService.prenotazioneMultipla(this.prenotazione, <number> this.durataa.numero).subscribe(
+      data => {
+        this.aggiornaPrenotazioni();
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Esito', detail: 'prenotazioni effettuate' })
+      },
+      err => {
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
+      }
+    )
+    this.giorno.setDate(this.giorno.getDate()-1);
+    this.visualizzaAddPrenotazione = false;
+  }
+
   annullaPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
     this.giorno.setDate(this.giorno.getDate()+1); 
     this.prenotazioneService.annullaPrenotazione(<number>fasciaOraria.id, <number>campo.id, this.giorno).subscribe(
@@ -155,6 +173,7 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   isPrenotato(fasciaOraria: FasciaOraria, campo: Campo): boolean {
+    this.atleti.push
     let prenotato: boolean = false;
     this.prenotazioni.forEach(prenotazione => {
       if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
@@ -196,9 +215,15 @@ export class PrenotazioneComponent implements OnInit {
       atleta:{nome:"", cognome:"", email:"", password:"", admin:false},
       campo: campo,
       fasciaOraria: fasciaOraria,
-      giorno: this.giorno
+      giorno: this.giorno,
+      libera: false
     };
-    this.atletaService.getAtleti().subscribe(
+    this.atletaService.getAdmin().subscribe(
+      data => {
+        this.admin = data;
+      }
+    );
+    this.atletaService.getNotAdmin().subscribe(
       data => {
         this.atleti = data;
       }
@@ -210,7 +235,12 @@ export class PrenotazioneComponent implements OnInit {
     let nome:string = "";
     this.prenotazioni.forEach(prenotazione => {
       if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
-        nome += prenotazione.atleta.nome + " " + prenotazione.atleta.cognome;
+        if(prenotazione.libera) {
+          nome = <string> prenotazione.nome;
+        }
+        else {
+          nome += prenotazione.atleta.nome + " " + prenotazione.atleta.cognome;
+        }
       }
     });
     return nome;
@@ -224,6 +254,16 @@ export class PrenotazioneComponent implements OnInit {
       }
     });
     return admin;
+  }
+
+  getLiberaPrenotazione(fasciaOraria: FasciaOraria, campo: Campo): boolean {
+    let libera: boolean = false;
+    this.prenotazioni.forEach(prenotazione => {
+      if(prenotazione.fasciaOraria?.id === fasciaOraria.id && prenotazione.campo?.id === campo.id)  {
+        libera = prenotazione.libera;
+      }
+    });
+    return libera;
   }
 
   prenotabile(fasciaOraria: FasciaOraria, campo: Campo): boolean {
