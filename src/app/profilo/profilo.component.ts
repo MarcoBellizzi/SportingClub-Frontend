@@ -111,4 +111,28 @@ export class ProfiloComponent implements OnInit {
     );
   }
 
+  getInizio(prenotazione: Prenotazione) : string {
+    let min = 100;
+    let inizio = "";
+    prenotazione.fasceOrarie.forEach(fascia => {
+      if(<number> fascia.id < min) {
+        min = <number> fascia.id;
+        inizio = <string> fascia.inizio;
+      }
+    });
+    return inizio;
+  }
+
+  getFine(prenotazione: Prenotazione) : string {
+    let max = 0;
+    let fine = "";
+    prenotazione.fasceOrarie.forEach(fascia => {
+      if(<number> fascia.id > max) {
+        max = <number> fascia.id;
+        fine = <string> fascia.fine;
+      }
+    });
+    return fine;
+  }
+
 }

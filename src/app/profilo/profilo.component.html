@@ -2,6 +2,69 @@
 
 <div class="p-grid" style="margin-top: 2rem; margin-left: 3rem; margin-right: 3rem;">
 
+  <div class="p-col-8">
+
+    <div class="p-grid">
+
+      <div class="p-col-12">
+        <p-card header="Prenotazioni in corso" [style]="{'background-color':'#f8f9fa'}">
+          <p-table [value]="prenotazioni">
+            <ng-template pTemplate="header">
+              <tr>
+                <th width="15%">Giorno</th>
+                <th width="10%">Inizio</th>
+                <th width="10%">Fine</th>
+                <th width="65%">Campo</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-prenotazione>
+              <tr>
+                <td>{{prenotazione.giorno}}</td>
+                <td>{{getInizio(prenotazione)}}</td>
+                <td>{{getFine(prenotazione)}}</td>
+                <td>{{prenotazione.campo.nome}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+
+      <div class="p-col-12">
+        <p-card header="Pagamenti in sospeso" [style]="{'background-color':'#f8f9fa'}">
+          <div *ngIf="isAdmin()">
+            <button pButton type="button" label="Aggiungi" class="p-button-primary" (click)="visualizzaAggiungiDebito()">
+            </button>
+          </div>
+          <p-table [value]="debiti">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Atleta</th>
+                <th>Importo</th>
+                <th>Descrizione</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-debito>
+              <tr>
+                <td>{{debito.atleta.nome}} {{debito.atleta.cognome}}</td>
+                <td>€ {{debito.importo}}</td>
+                <td>{{debito.descrizione}}</td>
+                <td>
+                  <div *ngIf="isAdmin()">
+                    <button pButton type="button" label="Salda" class="p-button-warning" (click)="salda(debito)">
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+
+    </div>
+    
+  </div>
+
   <div class="p-col-4">
     <p-card header="Profilo" [style]="{'background-color':'#f8f9fa'}">
       <div style="margin-bottom: 1rem;">
@@ -22,63 +85,6 @@
     </p-card>
   </div>
 
-  <div class="p-col-8">
-    <p-card header="Prenotazioni in corso" [style]="{'background-color':'#f8f9fa'}">
-      <p-table [value]="prenotazioni">
-        <ng-template pTemplate="header">
-          <tr>
-            <th width="20%">Giorno</th>
-            <th width="20%">Ora</th>
-            <th width="60%">Campo</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-prenotazione>
-          <tr>
-            <td>{{prenotazione.giorno}}</td>
-            <td>{{prenotazione.fasciaOraria.inizio}} - {{prenotazione.fasciaOraria.fine}}</td>
-            <td>{{prenotazione.campo.nome}}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </p-card>
-  </div>
-
-
-</div>
-
-<div class="p-grid" style="margin-top: 1rem; margin-left: 3rem; margin-right: 3rem; margin-bottom: 2rem;">
-  <div class="p-col-9">
-    <p-card header="Pagamenti in sospeso" [style]="{'background-color':'#f8f9fa'}">
-      <div *ngIf="isAdmin()">
-        <button pButton type="button" label="Aggiungi" class="p-button-primary" (click)="visualizzaAggiungiDebito()">
-        </button>
-      </div>
-      <p-table [value]="debiti">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Atleta</th>
-            <th>Importo</th>
-            <th>Descrizione</th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-debito>
-          <tr>
-            <td>{{debito.atleta.nome}} {{debito.atleta.cognome}}</td>
-            <td>€ {{debito.importo}}</td>
-            <td>{{debito.descrizione}}</td>
-            <td>
-              <div *ngIf="isAdmin()">
-                <button pButton type="button" label="Salda" class="p-button-warning"
-                  (click)="salda(debito)">
-                </button>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </p-card>
-  </div>
 </div>
 
 <p-dialog header="Aggiungi nuovo debito" [(visible)]="aggiungiDebito">

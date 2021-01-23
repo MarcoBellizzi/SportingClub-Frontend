@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit {
   logIn() {
     this.atletaService.login(this.email, this.password).subscribe(
       response => {
-        sessionStorage.setItem("nome", response.nome);
-        sessionStorage.setItem("cognome", response.cognome)
+        sessionStorage.setItem("nome", <string> response.nome);
+        sessionStorage.setItem("cognome", <string> response.cognome)
         this.route.navigate(['home']);
       },
       err => {

@@ -21,16 +21,12 @@ export class PrenotazioneService {
     return this.httpClient.put<Prenotazione[]>(`${environment.API_URL}/sporting/prenotazioni/giorno`, giorno);
   }
 
-  annullaPrenotazione(fasciaOraria: number, campo: number, giorno:Date) {
-    return this.httpClient.put(`${environment.API_URL}/sporting/prenotazione/annulla?fasciaOrariaId=${fasciaOraria}&campoId=${campo}`, giorno);
+  annullaPrenotazione(prenotazioneId: number) {
+    return this.httpClient.delete(`${environment.API_URL}/sporting/prenotazione/annulla?prenotazioneId=${prenotazioneId}`);
   }
   
   getPrenotazioniAfter(atletaId: number, giorno: Date) {
     return this.httpClient.put<Prenotazione[]>(`${environment.API_URL}/sporting/prenotazioni/after?atletaId=${atletaId}`, giorno);
-  }
-
-  prenotazioneMultipla(prenotazione: Prenotazione, durata: number): Observable<Prenotazione[]> {
-    return this.httpClient.post<Prenotazione[]>(`${environment.API_URL}/sporting/prenotazioni/multipla?durata=${durata}`, prenotazione);
   }
 
 } 

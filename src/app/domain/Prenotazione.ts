@@ -6,9 +6,9 @@ export interface Prenotazione {
     id?: number;
     atleta: Atleta;
     campo: Campo;
-    fasciaOraria: FasciaOraria;
-    giorno: Date;
-    libera: boolean;
+    fasceOrarie: FasciaOraria[];
+    giorno?: Date;
+    libera?: boolean;
     nome?: string;
     tipo?: string;
 }

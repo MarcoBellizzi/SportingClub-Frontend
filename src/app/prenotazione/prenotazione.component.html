@@ -20,7 +20,7 @@
                 <td>{{fasciaOraria.inizio}} - {{fasciaOraria.fine}}</td>
                 <td *ngFor="let campo of varCampo">
 
-                    <div *ngIf="isAdmin()">
+                    <div *ngIf="atleta.admin">
                         <div *ngIf="!isPrenotato(fasciaOraria,campo)">
                             <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
                                 <button pButton type="button" label="Prenota" class="p-button-primary"
@@ -45,21 +45,25 @@
                                 <button pButton type="button" label=" " class="p-button-danger"
                                     (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
                             </div>
-
                         </div>
                     </div>
 
-                    <div *ngIf="!isAdmin()">
+                    <div *ngIf="!atleta.admin">
+                        <div *ngIf="!isPrenotato(fasciaOraria,campo)">
+                            <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
+                                <button pButton type="button" label="Prenota" class="p-button-primary"
+                                    (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
+                            </div>
+                            <ng-template #nonPrenotabile>
+                                <button pButton type="button" label="Prenota" class="p-button-secondary"></button>
+                            </ng-template>
+                        </div>
                         <div *ngIf="isPrenotato(fasciaOraria,campo) && tuaPrenotazione(fasciaOraria,campo)">
                             <button pButton type="button" label="Annulla" class="p-button-warning"
                                 (click)="annullaPrenotazione(fasciaOraria,campo)"></button>
                         </div>
                         <div *ngIf="isPrenotato(fasciaOraria,campo) && !tuaPrenotazione(fasciaOraria,campo)">
                             <button pButton type="button" label="Occupato" class="p-button-danger"></button>
-                        </div>
-                        <div *ngIf="!isPrenotato(fasciaOraria,campo)">
-                            <button pButton type="button" label="Prenota" class="p-button-primary"
-                                (click)="prenota(fasciaOraria,campo)"></button>
                         </div>
                     </div>
 
@@ -79,70 +83,89 @@
 
 <p-dialog header="Aggiungi nuova prenotazione" [(visible)]="visualizzaAddPrenotazione">
     <div style="height: 20rem;">
-        <p-tabView (onChange)="reset()">
 
-            <p-tabPanel header="Maestro">
-                <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
-                    <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
-                        placeholder="tipo">
-                    </p-dropdown>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown (onChange)="selectName()" [options]="admin" [(ngModel)]="prenotazione.atleta"
-                        optionLabel="username" placeholder="maestro">
-                    </p-dropdown>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
-                        optionLabel="stringa" placeholder="durata">
-                    </p-dropdown>
-                </div>
-                <button pButton style="margin-left: 2rem;" [disabled]="!selected" label="Salva" class="p-button-primary"
-                    (click)="prenotazioneMultipla()">
-                </button>
-            </p-tabPanel>
+        <div *ngIf="atleta.admin">
+            <p-tabView (onChange)="reset()">
 
-            <p-tabPanel header="Atleta">
-                <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
-                    <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
-                        placeholder="tipo">
-                    </p-dropdown>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown (onChange)="selectName()" [options]="atleti" [(ngModel)]="prenotazione.atleta"
-                        optionLabel="username" placeholder="atleta">
-                    </p-dropdown>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
-                        optionLabel="stringa" placeholder="durata">
-                    </p-dropdown>
-                </div>
-                <button pButton style="margin-left: 2rem;" [disabled]="!selected" label="Salva"
-                    (click)="prenotazioneMultipla()">
-                </button>
-            </p-tabPanel>
+                <p-tabPanel header="Maestro">
+                    <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                        <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                            placeholder="tipo">
+                        </p-dropdown>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <p-dropdown (onChange)="selectName()" [options]="admin" [(ngModel)]="prenotazione.atleta"
+                            optionLabel="username" placeholder="maestro">
+                        </p-dropdown>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
+                            optionLabel="stringa" placeholder="durata">
+                        </p-dropdown>
+                    </div>
+                    <button pButton style="margin-left: 2rem;" [disabled]="!selected" label="Salva" class="p-button-primary"
+                        (click)="prenota()">
+                    </button>
+                </p-tabPanel>
+    
+                <p-tabPanel header="Atleta">
+                    <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                        <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                            placeholder="tipo">
+                        </p-dropdown>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <p-dropdown (onChange)="selectName()" [options]="atleti" [(ngModel)]="prenotazione.atleta"
+                            optionLabel="username" placeholder="atleta">
+                        </p-dropdown>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
+                            optionLabel="stringa" placeholder="durata">
+                        </p-dropdown>
+                    </div>
+                    <button pButton style="margin-left: 2rem;" [disabled]="!selected" label="Salva"
+                        (click)="prenota()">
+                    </button>
+                </p-tabPanel>
+    
+                <p-tabPanel header="Libera">
+                    <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                        <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                            placeholder="tipo">
+                        </p-dropdown>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <input pInputText [(ngModel)]="prenotazione.nome" placeholder="inserire una descrizione" />
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <p-dropdown [options]="fasceDisponibili" (onChange)="selectOra()" [(ngModel)]="durataa"
+                            optionLabel="stringa" placeholder="durata">
+                        </p-dropdown>
+                    </div>
+                    <button pButton type="submit" style="margin-left: 2rem;" [disabled]="!oreSelected" label="Salva"
+                        (click)="prenotaLibera()">
+                    </button>
+                </p-tabPanel>
+    
+            </p-tabView>
+        </div>
 
-            <p-tabPanel header="Libera">
-                <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
-                    <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
-                        placeholder="tipo">
-                    </p-dropdown>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <input pInputText [(ngModel)]="prenotazione.nome" placeholder="inserire una descrizione" />
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <p-dropdown [options]="fasceDisponibili" (onChange)="selectOra()" [(ngModel)]="durataa"
-                        optionLabel="stringa" placeholder="durata">
-                    </p-dropdown>
-                </div>
-                <button pButton type="submit" style="margin-left: 2rem;" [disabled]="!oreSelected" label="Salva"
-                    (click)="prenotazioneLiberaMultipla()">
-                </button>
-            </p-tabPanel>
-
-        </p-tabView>
+        <div *ngIf="!atleta.admin">
+            <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                    placeholder="tipo">
+                </p-dropdown>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
+                    optionLabel="stringa" placeholder="durata">
+                </p-dropdown>
+            </div>
+            <button pButton style="margin-left: 2rem;" [disabled]="!oreSelected" label="Salva" class="p-button-primary"
+                (click)="prenota()">
+            </button>
+        </div>
 
     </div>
 </p-dialog>

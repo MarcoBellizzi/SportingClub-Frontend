@@ -17,4 +17,8 @@ getFasceOrarie(): Observable<FasciaOraria[]> {
   return this.httpClient.get<FasciaOraria[]>(`${environment.API_URL}/sporting/fasceOrarie`);
 }
 
+getFasciaOraria(fasciaId: number) {
+  return this.httpClient.get<FasciaOraria>(`${environment.API_URL}/sporting/fasciaOraria?fasciaId=${fasciaId}`);
+}
+
 }

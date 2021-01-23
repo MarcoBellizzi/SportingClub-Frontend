@@ -1,4 +1,4 @@
 export interface Campo {
     id?: number;
-    nome: string;
+    nome?: string;
 }
