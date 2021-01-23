@@ -1,4 +1,5 @@
 export interface Ora {
     numero?: number,
-    stringa?: string
+    stringa?: string,
+    disabled?: boolean
 }

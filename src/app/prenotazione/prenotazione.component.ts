@@ -41,6 +41,11 @@ export class PrenotazioneComponent implements OnInit {
     {numero:6, stringa:"3 ore"}
   ];
   durataa: Ora = {} ;
+  nameSelected: boolean = false;
+  oreSelected: boolean = false;
+  selected: boolean = false;
+
+  tipi: any[] = [{tipo:"Tennis"}, {tipo:"Calcio"}];
 
   constructor(
     private campoService: CampoService,
@@ -64,6 +69,16 @@ export class PrenotazioneComponent implements OnInit {
     this.atletaService.getAtleta(<string> sessionStorage.getItem("nome"), <string> sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.atleta = response;
+      }
+    );
+    this.atletaService.getAdmin().subscribe(
+      data => {
+        this.admin = data;
+      }
+    );
+    this.atletaService.getNotAdmin().subscribe(
+      data => {
+        this.atleti = data;
       }
     );
     this.aggiornaPrenotazioni();
@@ -100,20 +115,6 @@ export class PrenotazioneComponent implements OnInit {
         this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'Atleta non trovato' });
       }
     );
-  }
-
-  aggiungiPrenotazione() {
-    this.prenotazioneService.save(this.prenotazione).subscribe(
-      response => {
-        this.aggiornaPrenotazioni();
-        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione effettuata' })
-      },
-      err => {
-        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'prenotazione non effettuata' });
-      }
-    )
-    this.giorno.setDate(this.giorno.getDate()-1);
-    this.visualizzaAddPrenotazione = false;
   }
 
   prenotazioneMultipla() {
@@ -210,6 +211,21 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   showAddPrenotazione(fasciaOraria:FasciaOraria, campo: Campo) {
+    this.reset();
+    
+    let finito: boolean = false;
+    for(let i=1; i<6; i++) {
+      this.prenotazioni.forEach(prenotazione => {
+        if(prenotazione.campo.id == campo.id && <number>prenotazione.fasciaOraria.id == <number>fasciaOraria.id +i) {
+          this.fasceDisponibili[i-1].disabled = true;
+          finito = true;
+        }
+        else {
+          this.fasceDisponibili[i-1].disabled = finito;
+        }
+      })
+    }
+
     this.giorno.setDate(this.giorno.getDate()+1);
     this.prenotazione = {
       atleta:{nome:"", cognome:"", email:"", password:"", admin:false},
@@ -218,17 +234,15 @@ export class PrenotazioneComponent implements OnInit {
       giorno: this.giorno,
       libera: false
     };
-    this.atletaService.getAdmin().subscribe(
-      data => {
-        this.admin = data;
-      }
-    );
-    this.atletaService.getNotAdmin().subscribe(
-      data => {
-        this.atleti = data;
-      }
-    );
+    
     this.visualizzaAddPrenotazione = true;
+  }
+
+  reset() {
+    this.nameSelected = false;
+    this.oreSelected = false;
+    this.selected = false;
+    this.durataa = {} ;
   }
 
   getNomePrenotazione(fasciaOraria: FasciaOraria, campo: Campo): string{
@@ -273,6 +287,16 @@ export class PrenotazioneComponent implements OnInit {
         prenotabile = false;
     })
     return prenotabile;
+  }
+
+  selectName() {
+    this.nameSelected = true;
+    this.selected = this.oreSelected;
+  }
+
+  selectOra() {
+    this.oreSelected = true;
+    this.selected = this.nameSelected;
   }
 
 }

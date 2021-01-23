@@ -10,4 +10,5 @@ export interface Prenotazione {
     giorno: Date;
     libera: boolean;
     nome?: string;
+    tipo?: string;
 }

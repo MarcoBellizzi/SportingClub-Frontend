@@ -1,10 +1,5 @@
 <app-navbar></app-navbar>
 
-<div *ngIf="isAdmin()" style="margin-top: 1rem; margin-left: 3rem; text-align: center;">
-  <h2>Sei un amministratore dello Sporting Club</h2>
-  Puoi Controllare i profili di chi ha prenotato i campi, aggiungere  e rimuovere prenotazioni ....
-</div>
-
 <div class="p-grid" style="margin-top: 2rem; margin-left: 3rem; margin-right: 3rem;">
 
   <div class="p-col-4">
@@ -20,6 +15,9 @@
       </div>
       <div style="margin-bottom: 1rem;">
         <label>Email: {{atleta.email}}</label>
+      </div>
+      <div *ngIf="isAdmin()">
+        <label>Admin</label>
       </div>
     </p-card>
   </div>

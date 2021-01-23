@@ -70,6 +70,7 @@
 </div>
 
 <p-dialog header="Prenotazione" [(visible)]="visualizzaPrenotazione">
+    <h3>{{prenotazione.tipo}}</h3>
     <h3>{{prenotazione.atleta.nome}} {{prenotazione.atleta.cognome}}</h3>
     <div style="margin-bottom: 1rem;"> {{prenotazione.atleta.email}} </div>
     <div style="margin-bottom: 3rem;"> {{prenotazione.atleta.telefono}} </div>
@@ -78,80 +79,70 @@
 
 <p-dialog header="Aggiungi nuova prenotazione" [(visible)]="visualizzaAddPrenotazione">
     <div style="height: 20rem;">
-
-        <p-tabView>
+        <p-tabView (onChange)="reset()">
 
             <p-tabPanel header="Maestro">
-                <form #f1="ngForm" (ngSubmit)="f1.form.valid && prenotazioneMultipla()" novalidate>
-                    <div class="form-group">
-                        <div style="margin-bottom: 2rem;">
-                            <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
-                                [ngClass]="{'is-invalid': f1.submitted && inAtleta.invalid }" [options]="admin"
-                                [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="maestro">
-                            </p-dropdown>
-                        </div>
-                        <div style="margin-bottom: 2rem;">
-                            <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
-                                [ngClass]="{'is-invalid': f1.submitted && durata.invalid }" [options]="fasceDisponibili"
-                                [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
-                            </p-dropdown>
-                        </div>
-                        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f1.invalid" label="Salva"
-                            class="p-button-primary">
-                        </button>
-                    </div>
-                </form>
+                <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                    <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                        placeholder="tipo">
+                    </p-dropdown>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown (onChange)="selectName()" [options]="admin" [(ngModel)]="prenotazione.atleta"
+                        optionLabel="username" placeholder="maestro">
+                    </p-dropdown>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
+                        optionLabel="stringa" placeholder="durata">
+                    </p-dropdown>
+                </div>
+                <button pButton style="margin-left: 2rem;" [disabled]="!selected" label="Salva" class="p-button-primary"
+                    (click)="prenotazioneMultipla()">
+                </button>
             </p-tabPanel>
 
             <p-tabPanel header="Atleta">
-                <form #f2="ngForm" (ngSubmit)="f2.form.valid && prenotazioneMultipla()" novalidate>
-                    <div class="form-group">
-                        <div style="margin-bottom: 2rem;">
-                            <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
-                                [ngClass]="{'is-invalid': f2.submitted && inAtleta.invalid }" [options]="atleti"
-                                [(ngModel)]="prenotazione.atleta" optionLabel="username" placeholder="atleta">
-                            </p-dropdown>
-                        </div>
-                        <div style="margin-bottom: 2rem;">
-                            <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
-                                [ngClass]="{'is-invalid': f2.submitted && durata.invalid }" [options]="fasceDisponibili"
-                                [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
-                            </p-dropdown>
-                        </div>
-                        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f2.invalid" label="Salva"
-                            class="p-button-primary">
-                        </button>
-                    </div>
-                </form>
+                <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                    <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                        placeholder="tipo">
+                    </p-dropdown>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown (onChange)="selectName()" [options]="atleti" [(ngModel)]="prenotazione.atleta"
+                        optionLabel="username" placeholder="atleta">
+                    </p-dropdown>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown (onChange)="selectOra()" [options]="fasceDisponibili" [(ngModel)]="durataa"
+                        optionLabel="stringa" placeholder="durata">
+                    </p-dropdown>
+                </div>
+                <button pButton style="margin-left: 2rem;" [disabled]="!selected" label="Salva"
+                    (click)="prenotazioneMultipla()">
+                </button>
             </p-tabPanel>
 
             <p-tabPanel header="Libera">
-                <form #f3="ngForm" (ngSubmit)="f3.form.valid && prenotazioneLiberaMultipla()" novalidate>
-                    <div class="form-group">
-                        <div style="margin-bottom: 2rem;">
-                            <input pInputText class="form-control" id="inDescrizione" name="inDescrizione"
-                                #inDescrizione="ngModel" required
-                                [ngClass]="{'is-invalid': f3.submitted && inDescrizione.invalid }"
-                                [(ngModel)]="prenotazione.nome" placeholder="inserire una descrizione" />
-                            <div *ngIf="inDescrizione.dirty && inDescrizione.touched && inDescrizione.invalid">
-                                Inserire una desrizione
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 2rem;">
-                            <p-dropdown class="form-control" id="durata" name="durata" #durata="ngModel" required
-                                [ngClass]="{'is-invalid': f3.submitted && durata.invalid }" [options]="fasceDisponibili"
-                                [(ngModel)]="durataa" optionLabel="stringa" placeholder="durata">
-                            </p-dropdown>
-                        </div>
-                        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f3.invalid" label="Salva"
-                            class="p-button-primary">
-                        </button>
-                    </div>
-                </form>
+                <div *ngIf="prenotazione.campo.id == 4" style="margin-bottom: 2rem;">
+                    <p-dropdown [options]="tipi" [(ngModel)]="prenotazione.tipo" optionLabel="tipo" optionValue="tipo"
+                        placeholder="tipo">
+                    </p-dropdown>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <input pInputText [(ngModel)]="prenotazione.nome" placeholder="inserire una descrizione" />
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p-dropdown [options]="fasceDisponibili" (onChange)="selectOra()" [(ngModel)]="durataa"
+                        optionLabel="stringa" placeholder="durata">
+                    </p-dropdown>
+                </div>
+                <button pButton type="submit" style="margin-left: 2rem;" [disabled]="!oreSelected" label="Salva"
+                    (click)="prenotazioneLiberaMultipla()">
+                </button>
             </p-tabPanel>
 
         </p-tabView>
-
 
     </div>
 </p-dialog>
