@@ -1,14 +1,16 @@
-<app-navbar></app-navbar>
+<div style="background-color: #B9FF98; margin-bottom: 4rem;">
 
-<div style="text-align: center;">
+  <app-navbar></app-navbar>
+
+  <div style="text-align: center; margin-top: 1rem;">
     <h1>Benvenuti allo Sporting Club Mendicino</h1>
-</div>
+  </div>
 
-<div class="p-grid" style="margin-top: 2rem; margin-left: 3rem; margin-right: 3rem;" >
-    <div class="p-col-4">
-      <p-card header="Struttura" subheader="Visualizza la struttura" class="p-mb-2 p-mr-2 ">
-          Lo sporting club Mendicino è un'ampia struttura, contenente 2 campi da Tennis all aperto, 1 al chiuso e 
-          due campi da Calcio. Clicca sotto per vedere le foto.
+  <div class="p-grid" style="margin-top: 2rem; margin-left: 3rem; margin-right: 3rem;">
+    <div class="col-md-4">
+      <p-card header="Struttura" subheader="Visualizza la struttura" class="p-mb-2 p-mr-2" >
+        Lo sporting club Mendicino è un'ampia struttura, contenente 2 campi da Tennis all aperto, 1 al chiuso e
+        due campi da Calcio. Clicca sotto per vedere le foto.
         <p-footer>
           <div class="p-d-flex p-flex-row">
             <div class="p-ml-auto">
@@ -20,34 +22,36 @@
       </p-card>
     </div>
 
-    <div class="p-col-4">
-        <p-card header="Prenotazione" subheader="Prenota una campo" class="p-mb-2 p-mr-2 ">
-            Lo sporting club Mendicino offre un servizio in cui e possibile visualizzare la 
-            disponibilità dei campi ed effettuare prenotazioni.
-          <p-footer>
-            <div class="p-d-flex p-flex-row">
-              <div class="p-ml-auto">
-                <button (click)="redirect('prenotazione')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                  iconPos="right" class="p-button-text p-button-text"></button>
-              </div>
+    <div class="col-md-4">
+      <p-card header="Prenotazione" subheader="Prenota una campo" class="p-mb-2 p-mr-2 ">
+        Lo sporting club Mendicino offre un servizio in cui e possibile visualizzare la
+        disponibilità dei campi ed effettuare prenotazioni.
+        <p-footer>
+          <div class="p-d-flex p-flex-row">
+            <div class="p-ml-auto">
+              <button (click)="redirect('prenotazione')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
+                iconPos="right" class="p-button-text p-button-text"></button>
             </div>
-          </p-footer>
-        </p-card>
-      </div>
+          </div>
+        </p-footer>
+      </p-card>
+    </div>
 
-      <div class="p-col-4">
-        <p-card header="Profilo" subheader="Visualizza i tuoi dati" class="p-mb-2 p-mr-2 ">
-            In questa pagina sono presenti i tuoi dati anagrafici, le prenotazioni in corso e 
-            gli eventuli debiti maturati, clicca sotto per accedere.
-          <p-footer>
-            <div class="p-d-flex p-flex-row">
-              <div class="p-ml-auto">
-                <button (click)="redirect('profilo')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                  iconPos="right" class="p-button-text p-button-text"></button>
-              </div>
+    <div class="col-md-4">
+      <p-card header="Profilo" subheader="Visualizza i tuoi dati" class="p-mb-2 p-mr-2 ">
+        In questa pagina sono presenti i tuoi dati anagrafici, le prenotazioni in corso e
+        gli eventuli debiti maturati, clicca sotto per accedere.
+        <p-footer>
+          <div class="p-d-flex p-flex-row">
+            <div class="p-ml-auto">
+              <button (click)="redirect('profilo')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
+                iconPos="right" class="p-button-text p-button-text"></button>
             </div>
-          </p-footer>
-        </p-card>
-      </div>
+          </div>
+        </p-footer>
+      </p-card>
+    </div>
 
+  </div>
 </div>
+<app-footer></app-footer>

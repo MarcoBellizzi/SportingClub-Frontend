@@ -1,18 +1,22 @@
-<app-navbar></app-navbar>
+<div style="background-color: #B9FF98; margin-bottom: 4rem;">
+  <app-navbar></app-navbar>
 
-<div style="margin-top: 2rem; margin-left: 5rem; margin-right: 5rem;">
-  <p-card [style]="{'background-color':'#f8f9fa'}">
-    <div style="margin-left: 11rem; margin-right: 11rem;">
-      <p-carousel [value]="ambienti">
-        <ng-template let-ambiente pTemplate="item">
-          <div style="text-align: center; margin-bottom: 2rem;">
-            <h2>{{ambiente.nome}}</h2>
-            {{ambiente.descrizione}}
-          </div>
-          <img src="../../assets/immagini/{{ambiente.photo}}" alt="{{ambiente.titolo}}"
-            style="width:100%; height:auto;">
-        </ng-template>
-      </p-carousel>
-    </div>
-  </p-card>
+  <div style="margin-top: 3rem; margin-left: 3rem; margin-right: 3rem;">
+    <p-card [style]="{'background-color':'#f8f9fa'}">
+      <div style="margin-left: 11rem; margin-right: 11rem;">
+        <p-carousel [value]="ambienti">
+          <ng-template let-ambiente pTemplate="item">
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <h2>{{ambiente.nome}}</h2>
+              {{ambiente.descrizione}}
+            </div>
+            <img src="../../assets/immagini/{{ambiente.photo}}" alt="{{ambiente.titolo}}"
+              style="width:100%; height:auto;">
+          </ng-template>
+        </p-carousel>
+      </div>
+    </p-card>
+  </div>
 </div>
+
+<app-footer></app-footer>

@@ -7,4 +7,5 @@ export interface Atleta {
     email?: string;
     password?: string;
     admin?: boolean;
+    livello?: string;
 }

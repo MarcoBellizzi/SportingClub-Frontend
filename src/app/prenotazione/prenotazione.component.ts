@@ -97,7 +97,7 @@ export class PrenotazioneComponent implements OnInit {
     this.oreSelected = false;
     this.selected = false;
     this.durataa = {};
-  } 
+  }
 
   showAddPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
     this.reset();
@@ -106,7 +106,7 @@ export class PrenotazioneComponent implements OnInit {
       this.prenotazioni.forEach(prenotazione => {
         if (prenotazione.campo.id == campo.id) {
           let occupato: boolean = false;
-          prenotazione.fasceOrarie?.forEach(fascia => {
+          prenotazione.fasceOrarie.forEach(fascia => {
             if (fascia.id == <number>fasciaOraria?.id + i) {
               occupato = true;
             }
@@ -177,18 +177,22 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   annullaPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
-    this.giorno.setDate(this.giorno.getDate() + 1);
-    this.prenotazioneService.annullaPrenotazione(<number>this.getPrenotazione(fasciaOraria, campo).id).subscribe(
-      data => {
+    if (this.giorno.getDate() == new Date().getDate() && this.giorno.getMonth() == new Date().getMonth()) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Esito', detail: 'Non puoi annullare la prenotazione il giorno stesso. Si può annullare la prenotazione entro il giorno prima.' })
+    }
+    else {
+      this.giorno.setDate(this.giorno.getDate() + 1);
+      this.prenotazioneService.annullaPrenotazione(<number>this.getPrenotazione(fasciaOraria, campo).id).subscribe(
+        data => {
 
-      },
-      niente => {
-        this.aggiornaPrenotazioni();
-        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione annullata' })
-      }
-    )
-    this.giorno.setDate(this.giorno.getDate() - 1);
-
+        },
+        niente => {
+          this.aggiornaPrenotazioni();
+          this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'prenotazione annullata' })
+        }
+      )
+      this.giorno.setDate(this.giorno.getDate() - 1);
+    }
   }
 
   eliminaPrenotazione() {

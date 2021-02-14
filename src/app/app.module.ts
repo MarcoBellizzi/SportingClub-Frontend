@@ -28,10 +28,11 @@ import { RegistrazioneComponent } from './registrazione/registrazione.component'
 import { MessageService } from 'primeng/api';
 import { ProfiloComponent } from './profilo/profilo.component';
 import { StrutturaComponent } from './struttura/struttura.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
-  declarations: [											
+  declarations: [												
     AppComponent,
       LoginComponent,
       HomeComponent,
@@ -39,7 +40,8 @@ import { StrutturaComponent } from './struttura/struttura.component';
       PrenotazioneComponent,
       RegistrazioneComponent,
       ProfiloComponent,
-      StrutturaComponent
+      StrutturaComponent,
+      FooterComponent
    ],
   imports: [
     BrowserModule,
