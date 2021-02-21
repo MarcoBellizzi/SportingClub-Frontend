@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        styleClass: 'nav',
         command: (event: any) => {
           this.redirect('home');
         }
@@ -29,7 +28,6 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Struttura',
         icon: 'pi pi-eye',
-        styleClass: 'nav',
         command: (event: any) => {
           this.redirect('struttura');
         }
@@ -37,7 +35,6 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Prenotazione',
         icon: 'pi pi-book',
-        styleClass: 'nav',
         command: (event: any) => {
           if (sessionStorage.getItem("nome")) {
             this.redirect('prenotazione');
@@ -50,7 +47,6 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Profilo',
         icon: 'pi pi-user',
-        styleClass: 'nav',
         command: (event: any) => {
           if (sessionStorage.getItem("nome")) {
             this.redirect('profilo');
@@ -67,7 +63,6 @@ export class NavbarComponent implements OnInit {
         {
           label: 'Logout',
           icon: 'pi pi-sign-out',
-          styleClass: 'nav',
           command: (event: any) => {
             sessionStorage.removeItem("nome");
             sessionStorage.removeItem("cognome");
@@ -86,7 +81,6 @@ export class NavbarComponent implements OnInit {
         {
           label: 'LogIn',
           icon: 'pi pi-sign-in',
-          styleClass: 'nav',
           command: (event: any) => {
             this.redirect('login');
           }

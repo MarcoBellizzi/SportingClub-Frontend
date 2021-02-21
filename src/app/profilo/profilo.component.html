@@ -1,28 +1,54 @@
 <div style="background-color: #B9FF98; margin-bottom: 4rem;">
   <app-navbar></app-navbar>
 
-  <div class="p-grid" style="margin-top: 2rem; margin-left: 3rem; margin-right: 3rem;">
+  <div class="p-grid" style="margin-top: 2rem; margin-left: 1rem; margin-right: 1rem;">
 
-    <div class="p-col-8">
+    <div class="p-sm-12 p-md-4">
+      <p-card header="Profilo" [style]="{'background-color':'#f8f9fa'}">
+        <div style="margin-bottom: 1rem;">
+          <label>Nome: {{atleta.nome}}</label>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label>Cognome: {{atleta.cognome}}</label>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label>Telefono: {{atleta.telefono}}</label>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label>Email: {{atleta.email}}</label>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label>Livello: {{atleta.livello}}</label>
+        </div>
+        <div *ngIf="isAdmin()">
+          <label>Admin</label>
+        </div>
+      </p-card>
+    </div>
 
+    <div class="p-sm-12 p-md-8">
       <div class="p-grid">
-
         <div class="p-col-12">
           <p-card header="Prenotazioni in corso" [style]="{'background-color':'#f8f9fa'}">
-            <p-table [value]="prenotazioni">
+            <p-table [value]="prenotazioni" [scrollable]="true" styleClass="p-datatable-sm">
+              <ng-template pTemplate="colgroup">
+                <colgroup>
+                  <col style="width: 100px">
+                  <col style="width: 110px">
+                  <col style="width: 80px">
+                </colgroup>
+              </ng-template>
               <ng-template pTemplate="header">
                 <tr>
-                  <th width="15%">Giorno</th>
-                  <th width="10%">Inizio</th>
-                  <th width="10%">Fine</th>
-                  <th width="65%">Campo</th>
+                  <th>Giorno</th>
+                  <th>Orario</th>
+                  <th>Campo</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-prenotazione>
                 <tr>
                   <td>{{prenotazione.giorno}}</td>
-                  <td>{{getInizio(prenotazione)}}</td>
-                  <td>{{getFine(prenotazione)}}</td>
+                  <td>{{getInizio(prenotazione)}}-{{getFine(prenotazione)}}</td>
                   <td>{{prenotazione.campo.nome}}</td>
                 </tr>
               </ng-template>
@@ -67,29 +93,6 @@
 
     </div>
 
-    <div class="p-col-4">
-      <p-card header="Profilo" [style]="{'background-color':'#f8f9fa'}">
-        <div style="margin-bottom: 1rem;">
-          <label>Nome: {{atleta.nome}}</label>
-        </div>
-        <div style="margin-bottom: 1rem;">
-          <label>Cognome: {{atleta.cognome}}</label>
-        </div>
-        <div style="margin-bottom: 1rem;">
-          <label>Telefono: {{atleta.telefono}}</label>
-        </div>
-        <div style="margin-bottom: 1rem;">
-          <label>Email: {{atleta.email}}</label>
-        </div>
-        <div style="margin-bottom: 1rem;">
-          <label>Livello: {{atleta.livello}}</label>
-        </div>
-        <div *ngIf="isAdmin()">
-          <label>Admin</label>
-        </div>
-      </p-card>
-    </div>
-
   </div>
 </div>
 
@@ -106,11 +109,11 @@
           <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
             [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti" [(ngModel)]="debito.atleta"
             optionLabel="username" placeholder="Atleta">
-          </p-dropdown>
+          </p-dropdown> 
           <div *ngIf="inAtleta.dirty && inAtleta.touched && inAtleta.invalid">
             Seleziona un atleta
           </div>
-        </div>
+        </div> 
       </div>
 
       <div style="margin-bottom: 1rem;">
@@ -146,4 +149,4 @@
   </div>
 </p-dialog>
 
-<p-toast position="bottom-left" key="tc"></p-toast>
+<p-toast [style]="{'max-width': '80%'}" position="bottom-left" key="tc"></p-toast>

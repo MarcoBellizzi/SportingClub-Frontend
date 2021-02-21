@@ -8,7 +8,13 @@
                 Giorno &nbsp; &nbsp; <p-calendar [(ngModel)]="giorno" (onSelect)="aggiornaPrenotazioni()"></p-calendar>
             </div>
         </div>
-        <p-table [columns]="campi" [value]="fasceOrarie" styleClass="p-datatable-sm">
+        <p-table [columns]="campi" [scrollable]="true" [value]="fasceOrarie" styleClass="p-datatable-sm" scrollHeight="400px">
+            <ng-template pTemplate="colgroup" let-varCampo>
+                <colgroup>
+                    <col style="width:120px">
+                    <col *ngFor="let campo of varCampo" style="width:120px">
+                </colgroup>
+            </ng-template>
             <ng-template pTemplate="header" let-varCampo>
                 <tr>
                     <th>Fascia Oraria</th>
@@ -174,4 +180,4 @@
     </div>
 </p-dialog>
 
-<p-toast position="bottom-left" key="tc"></p-toast>
+<p-toast [style]="{'max-width': '80%'}" position="bottom-left" key="tc"></p-toast>

@@ -1,0 +1,11 @@
+::ng-deep .p-menubar .p-menuitem-link .p-menuitem-text {
+    color: white !important;
+}
+
+::ng-deep .p-menubar .p-menuitem-link:hover{
+    background-color: #082507 !important;
+}
+
+::ng-deep .p-menubar .p-menuitem-link{
+    background-color: #14490a !important;
+} 
