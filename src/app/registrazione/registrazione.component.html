@@ -2,15 +2,16 @@
 
   <app-navbar></app-navbar>
   
-  <p-card header="Registrazione"
-    [style]="{'background-color':'#f8f9fa', 'width':'27rem', 'margin-top':'3rem', 'margin-left':'auto', 'margin-right':'auto'}">
+  <div style="padding-left: 20px; padding-right: 20px;">
+    <p-card header="Registrazione"
+    [style]="{'background-color':'#f8f9fa', 'max-width': '500px', 'margin-top':'50px', 'margin-left':'auto', 'margin-right':'auto'}">
 
     <form #f="ngForm" (ngSubmit)="f.form.valid && registrati()" novalidate>
 
       <div style="margin-bottom: 1rem;">
         <label>Email</label>
         <div class="form-group">
-          <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required
+          <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required style="max-width: 400px;"
             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="atleta.email"
             [ngClass]="{'is-invalid': f.submitted && inEmail.invalid }" />
           <div *ngIf="inEmail.dirty && inEmail.touched && inEmail.invalid">
@@ -22,7 +23,7 @@
       <div style="margin-bottom: 1rem;">
         <label>Password</label>
         <div class="form-group">
-          <input pPassword type="password" class="form-control" id="inPassword" name="inPassword" #inPassword="ngModel"
+          <input pPassword type="password" class="form-control" id="inPassword" name="inPassword" #inPassword="ngModel" style="max-width: 400px;"
             required minlength="3" [(ngModel)]="atleta.password"
             [ngClass]="{'is-invalid': f.submitted && inPassword.invalid }" />
           <div *ngIf="inPassword.dirty && inPassword.touched && inPassword.invalid">
@@ -34,7 +35,7 @@
       <div style="margin-bottom: 1rem;">
         <label>Nome</label>
         <div class="form-group">
-          <input pInputText class="form-control" id="inNome" name="inNome" #inNome="ngModel" required minlength="3"
+          <input pInputText class="form-control" id="inNome" name="inNome" #inNome="ngModel" required minlength="3" style="max-width: 400px;"
             [(ngModel)]="atleta.nome" [ngClass]="{'is-invalid': f.submitted && inNome.invalid }" />
           <div *ngIf="inNome.dirty && inNome.touched && inNome.invalid">
             Lunghezza minima 3
@@ -45,7 +46,7 @@
       <div style="margin-bottom: 1rem;">
         <label>Cognome</label>
         <div class="form-group">
-          <input pInputText class="form-control" id="inCognome" name="inCognome" #inCognome="ngModel" required
+          <input pInputText class="form-control" id="inCognome" name="inCognome" #inCognome="ngModel" required style="max-width: 400px;"
             minlength="3" minlength="3" [(ngModel)]="atleta.cognome"
             [ngClass]="{'is-invalid': f.submitted && inCognome.invalid }" />
           <div *ngIf="inCognome.dirty && inCognome.touched && inCognome.invalid">
@@ -57,7 +58,7 @@
       <div style="margin-bottom: 1rem;">
         <label>Telefono</label>
         <div class="form-group">
-          <input pInputText class="form-control" id="inTelefono" name="inTelefono" #inTelefono="ngModel" required
+          <input pInputText class="form-control" id="inTelefono" name="inTelefono" #inTelefono="ngModel" required style="max-width: 400px;"
             minlength="=10" maxlength="10" pattern="[0-9]{10}" [(ngModel)]="atleta.telefono"
             [ngClass]="{'is-invalid': f.submitted && inTelefono.invalid }" />
           <div *ngIf="inTelefono.dirty && inTelefono.touched && inTelefono.invalid">
@@ -76,6 +77,8 @@
     </form>
 
   </p-card>
+  </div>
+ 
 </div>
 
 <app-footer></app-footer>

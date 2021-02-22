@@ -30,7 +30,7 @@
       <div class="p-grid">
         <div class="p-col-12">
           <p-card header="Prenotazioni in corso" [style]="{'background-color':'#f8f9fa'}">
-            <p-table [value]="prenotazioni" [scrollable]="true" styleClass="p-datatable-sm">
+            <p-table [value]="prenotazioni" [scrollable]="true">
               <ng-template pTemplate="colgroup">
                 <colgroup>
                   <col style="width: 100px">
@@ -67,7 +67,6 @@
               <ng-template pTemplate="header">
                 <tr>
                   <th>Atleta</th>
-                  <th>Importo</th>
                   <th>Descrizione</th>
                   <th></th>
                 </tr>
@@ -75,10 +74,9 @@
               <ng-template pTemplate="body" let-debito>
                 <tr>
                   <td>{{debito.atleta.nome}} {{debito.atleta.cognome}}</td>
-                  <td>€ {{debito.importo}}</td>
-                  <td>{{debito.descrizione}}</td>
+                  <td>€ {{debito.importo}} - {{debito.descrizione}}</td>
                   <td>
-                    <div *ngIf="isAdmin()">
+                    <div *ngIf="isAdmin()" style="text-align: center;">
                       <button pButton type="button" label="Salda" class="p-button-warning" (click)="salda(debito)">
                       </button>
                     </div>
@@ -101,51 +99,37 @@
 
 <p-dialog header="Aggiungi nuovo debito" [(visible)]="aggiungiDebito">
   <div style="height: 20rem;">
-    <form #f="ngForm" (ngSubmit)="f.form.valid && salvaDebito()" novalidate>
-
+    
       <div style="margin-bottom: 1rem;">
         <label>Atleta</label>
-        <div class="form-group">
-          <p-dropdown class="form-control" id="inAtleta" name="inAtleta" #inAtleta="ngModel" required
-            [ngClass]="{'is-invalid': f.submitted && inAtleta.invalid }" [options]="atleti" [(ngModel)]="debito.atleta"
+        <div>
+          <p-dropdown
+           [options]="atleti" [(ngModel)]="debito.atleta"
             optionLabel="username" placeholder="Atleta">
           </p-dropdown> 
-          <div *ngIf="inAtleta.dirty && inAtleta.touched && inAtleta.invalid">
-            Seleziona un atleta
-          </div>
         </div> 
       </div>
 
       <div style="margin-bottom: 1rem;">
         <label>Importo</label>
-        <div class="form-group">
-          <input pInputText class="form-control" id="inImporto" name="inImporto" #inImporto="ngModel" required
-            pattern="[0-9]+" [ngClass]="{'is-invalid': f.submitted && inImporto.invalid }"
+        <div >
+          <input type="number" step="any" pInputText 
             [(ngModel)]="debito.importo" />
-        </div>
-        <div *ngIf="inImporto.dirty && inImporto.touched && inImporto.invalid">
-          Inserire un importo
         </div>
       </div>
 
       <div style="margin-bottom: 1rem;">
         <label>Descrizione</label>
-        <div class="form-group">
-          <input pInputText class="form-control" id="inDescrizione" name="inDescrizione" #inDescrizione="ngModel"
-            required [ngClass]="{'is-invalid': f.submitted && inDescrizione.invalid }"
+        <div>
+          <input pInputText 
             [(ngModel)]="debito.descrizione" />
-          <div *ngIf="inDescrizione.dirty && inDescrizione.touched && inDescrizione.invalid">
-            Inserire una desrizione
-          </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <button pButton type="submit" style="margin-left: 2rem;" [disabled]="f.invalid" label="Salva"
+      <div >
+        <button pButton style="margin-left: 2rem;" label="Salva" (click)="salvaDebito()"
           class="p-button-primary"></button>
       </div>
-
-    </form>
   </div>
 </p-dialog>
 

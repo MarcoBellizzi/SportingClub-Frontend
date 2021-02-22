@@ -1,48 +1,56 @@
 <div style="background-color: #B9FF98; margin-bottom: 4rem;">
 
     <app-navbar></app-navbar>
-    
-    <p-card header="LogIn"
-        [style]="{'background-color':'#f8f9fa', 'width':'27rem', 'margin-top':'3rem', 'margin-left':'auto', 'margin-right':'auto'}">
 
-        <form #f="ngForm" (ngSubmit)="f.form.valid && logIn()" novalidate>
-            <div style="margin-bottom: 1rem;">
-                <label>Email</label>
-                <div class="form-group">
-                    <input pInputText class="form-control" id="inUsername" name="inUsername" #inUsername="ngModel"
-                        required [ngClass]="{'is-invalid': f.submitted && inUsername.invalid }" [(ngModel)]="email" />
-                    <div *ngIf="inUsername.dirty && inUsername.touched && inUsername.invalid">
-                        Nome richiesto
+    <div style="padding-left: 20px; padding-right: 20px;">
+
+        <p-card header="LogIn"
+            [style]="{'background-color':'#f8f9fa', 'max-width': '500px', 'margin-top':'50px', 'margin-left':'auto', 'margin-right':'auto'}">
+
+            <form #f="ngForm" (ngSubmit)="f.form.valid && logIn()" novalidate>
+                <div style="margin-bottom: 1rem;">
+                    <label>Email</label>
+                    <div class="form-group">
+                        <input pInputText class="form-control" id="inUsername" name="inUsername" #inUsername="ngModel"
+                            style="max-width: 400px;" required
+                            [ngClass]="{'is-invalid': f.submitted && inUsername.invalid }" [(ngModel)]="email" />
+                        <div *ngIf="inUsername.dirty && inUsername.touched && inUsername.invalid">
+                            Nome richiesto
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <label for="password">Password</label>
-                <div class="form-group">
-                    <input type="password" pPassword class="form-control" id="inPassword" name="inPassword"
-                        #inPassword="ngModel" [ngClass]="{'is-invalid': f.submitted && inPassword.invalid }"
-                        [(ngModel)]="password" />
-                    <div *ngIf="inPassword.dirty && inPassword.touched && inPassword.invalid">
-                        Password richiesta
+                <div style="margin-bottom: 1rem;">
+                    <label for="password">Password</label>
+                    <div class="form-group">
+                        <input type="password" pPassword class="form-control" id="inPassword" name="inPassword"
+                            style="max-width: 400px;" #inPassword="ngModel"
+                            [ngClass]="{'is-invalid': f.submitted && inPassword.invalid }" [(ngModel)]="password" />
+                        <div *ngIf="inPassword.dirty && inPassword.touched && inPassword.invalid">
+                            Password richiesta
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <div style="margin-bottom: 20px;">
+                            <button style="margin-right: 1rem;" pButton type="submit" label="Log In"
+                                class="p-button-success" [disabled]="f.invalid">
+                            </button>
+                            <button style="margin-right: 1rem;" pButton type="button" label="Registrati"
+                                class="p-button-secondary" (click)="redirect('registrazione')">
+                            </button>
+                        </div>
+                        <div>
+                            <button style="margin-right: 1rem;" pButton type="button" label="Torna alla Home"
+                                class="p-button-warning" (click)="redirect('home')">
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-group" style="margin-top: 1rem;">
-                    <button style="margin-right: 1rem;" pButton type="submit" label="Log In" class="p-button-success"
-                        [disabled]="f.invalid">
-                    </button>
-                    <button style="margin-right: 1rem;" pButton type="button" label="Registrati"
-                        class="p-button-secondary" (click)="redirect('registrazione')">
-                    </button>
-                    <button style="margin-right: 1rem;" pButton type="button" label="Torna alla Home"
-                        class="p-button-warning" (click)="redirect('home')">
-                    </button>
-                </div>
-            </div>
-        </form>
-    </p-card>
+            </form>
+        </p-card>
+    </div>
 </div>
 
 <app-footer></app-footer>
 
-<p-toast [style]="{'max-width': '80%'}"position="top-center" key="tc"></p-toast>
+<p-toast [style]="{'max-width': '80%'}" position="top-center" key="tc"></p-toast>
