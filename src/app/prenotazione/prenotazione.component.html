@@ -1,14 +1,19 @@
 <div style="background-color: #B9FF98; margin-bottom: 4rem;">
-    
+
     <app-navbar></app-navbar>
 
     <div style="margin-left: 3rem; margin-right: 3rem; margin-top: 1rem; margin-bottom: 2rem;">
+        <button [hidden]="!atleta.admin" pButton class="p-button-secondary" label="Modifica Prenotazioni fisse"
+            (click)="visualizzaPrenotazioniFisse=true">
+        </button>
+
         <div style="text-align: center; margin-bottom: 1rem;">
             <div>
                 Giorno &nbsp; &nbsp; <p-calendar [(ngModel)]="giorno" (onSelect)="aggiornaPrenotazioni()"></p-calendar>
             </div>
         </div>
-        <p-table [columns]="campi" [scrollable]="true" [value]="fasceOrarie" styleClass="p-datatable-sm" scrollHeight="400px">
+        <p-table [columns]="campi" [scrollable]="true" [value]="fasceOrarie" styleClass="p-datatable-sm"
+            scrollHeight="400px">
             <ng-template pTemplate="colgroup" let-varCampo>
                 <colgroup>
                     <col style="width:120px">
@@ -28,53 +33,57 @@
                     <td>{{fasciaOraria.inizio}} - {{fasciaOraria.fine}}</td>
                     <td *ngFor="let campo of varCampo">
 
-                        <div *ngIf="atleta.admin">
-                            <div *ngIf="!isPrenotato(fasciaOraria,campo)">
-                                <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
-                                    <button pButton type="button" label="Prenota" class="p-button-primary"
-                                        (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
-                                </div>
-                                <ng-template #nonPrenotabile>
-                                    <button pButton type="button" label="Prenota" class="p-button-secondary"></button>
-                                </ng-template>
-                            </div>
-                            <div *ngIf="isPrenotato(fasciaOraria,campo)">
-                                <div *ngIf="getAdminPrenotazione(fasciaOraria,campo)">
-                                    <div *ngIf="getLiberaPrenotazione(fasciaOraria,campo); else noLibera">
-                                        <button pButton type="button" label=" " class="p-button-help"
-                                            (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                        <div *ngIf="prenotatoDaPrenotazioneFissa(fasciaOraria, campo); else noPrenotazioneFissa">
+                            <button pButton type="button" label="Occupato" class="p-button-danger"></button>
+                        </div>
+                        <ng-template #noPrenotazioneFissa>
+                            <div *ngIf="atleta.admin">
+                                <div *ngIf="!isPrenotato(fasciaOraria,campo)">
+                                    <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
+                                        <button pButton type="button" label="Prenota" class="p-button-primary"
+                                            (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
                                     </div>
-                                    <ng-template #noLibera>
-                                        <button pButton type="button" label=" " class="p-button-warning"
-                                            (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                    <ng-template #nonPrenotabile>
+                                        <button pButton type="button" label="Prenota" class="p-button-secondary"></button>
                                     </ng-template>
                                 </div>
-                                <div *ngIf="!getAdminPrenotazione(fasciaOraria,campo)">
-                                    <button pButton type="button" label=" " class="p-button-danger"
-                                        (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                <div *ngIf="isPrenotato(fasciaOraria,campo)">
+                                    <div *ngIf="getAdminPrenotazione(fasciaOraria,campo)">
+                                        <div *ngIf="getLiberaPrenotazione(fasciaOraria,campo); else noLibera">
+                                            <button pButton type="button" label=" " class="p-button-help"
+                                                (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                        </div>
+                                        <ng-template #noLibera>
+                                            <button pButton type="button" label=" " class="p-button-warning"
+                                                (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                        </ng-template>
+                                    </div>
+                                    <div *ngIf="!getAdminPrenotazione(fasciaOraria,campo)">
+                                        <button pButton type="button" label=" " class="p-button-danger"
+                                            (click)="showPrenotazione(fasciaOraria, campo)">{{getNomePrenotazione(fasciaOraria,campo)}}</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div *ngIf="!atleta.admin">
-                            <div *ngIf="!isPrenotato(fasciaOraria,campo)">
-                                <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
-                                    <button pButton type="button" label="Prenota" class="p-button-primary"
-                                        (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
+    
+                            <div *ngIf="!atleta.admin">
+                                <div *ngIf="!isPrenotato(fasciaOraria,campo)">
+                                    <div *ngIf="prenotabile(fasciaOraria, campo);else nonPrenotabile">
+                                        <button pButton type="button" label="Prenota" class="p-button-primary"
+                                            (click)="showAddPrenotazione(fasciaOraria, campo)"></button>
+                                    </div>
+                                    <ng-template #nonPrenotabile>
+                                        <button pButton type="button" label="Prenota" class="p-button-secondary"></button>
+                                    </ng-template>
                                 </div>
-                                <ng-template #nonPrenotabile>
-                                    <button pButton type="button" label="Prenota" class="p-button-secondary"></button>
-                                </ng-template>
+                                <div *ngIf="isPrenotato(fasciaOraria,campo) && tuaPrenotazione(fasciaOraria,campo)">
+                                    <button pButton type="button" label="Annulla" class="p-button-warning"
+                                        (click)="annullaPrenotazione(fasciaOraria,campo)"></button>
+                                </div>
+                                <div *ngIf="isPrenotato(fasciaOraria,campo) && !tuaPrenotazione(fasciaOraria,campo)">
+                                    <button pButton type="button" label="Occupato" class="p-button-danger"></button>
+                                </div>
                             </div>
-                            <div *ngIf="isPrenotato(fasciaOraria,campo) && tuaPrenotazione(fasciaOraria,campo)">
-                                <button pButton type="button" label="Annulla" class="p-button-warning"
-                                    (click)="annullaPrenotazione(fasciaOraria,campo)"></button>
-                            </div>
-                            <div *ngIf="isPrenotato(fasciaOraria,campo) && !tuaPrenotazione(fasciaOraria,campo)">
-                                <button pButton type="button" label="Occupato" class="p-button-danger"></button>
-                            </div>
-                        </div>
-
+                        </ng-template>
                     </td>
                 </tr>
             </ng-template>
@@ -178,6 +187,73 @@
         </div>
 
     </div>
+</p-dialog>
+
+<p-dialog header="Prenotazioni fisse" [(visible)]="visualizzaPrenotazioniFisse" [style]="{'max-width': '600px'}">
+    <button pButton class="p-button-primary" label="Nuova" style="margin-bottom: 20px;"
+        (click)="visualizzaPrenotazioniFisse=false; visualizzaNuovaPrenotazioneFissa=true">
+    </button>
+
+    <p-table [value]="prenotazioniFisse">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Prenotazione Fisse</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-prenotazione>
+            <tr>
+                <td>{{convertiGiorno(prenotazione.giorno)}} - {{prenotazione.campo.nome}} - 
+                    {{prenotazione.fasciaOraria.inizio}} - {{convertiDurata(prenotazione.durata)}} - {{prenotazione.prenotazione}} 
+                    <button pButton style="margin-left: 20px;"label="Elimina" class="p-button-danger" (click)="eliminaPrenotazioneFissa(prenotazione)">
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-dialog header="Nuova prenotazione fissa" [(visible)]="visualizzaNuovaPrenotazioneFissa">
+    <div>
+        <label>Giorno della settimana</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <p-dropdown [options]="giorniDellaSettimana" [(ngModel)]="nuovaPrenotazioneFissa.giorno" optionLabel="nome"
+            optionValue="valore" placeholder="giorno">
+        </p-dropdown>
+    </div>
+    <div>
+        <label>Fascia Oraria</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <p-dropdown [options]="fasceOrarie" [(ngModel)]="nuovaPrenotazioneFissa.fasciaOraria" optionLabel="inizio"
+            placeholder="durata">
+        </p-dropdown>
+    </div>
+    <div>
+        <label>Campo</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <p-dropdown [options]="campi" [(ngModel)]="nuovaPrenotazioneFissa.campo" optionLabel="nome"
+            placeholder="campo">
+        </p-dropdown>
+    </div>
+    <div>
+        <label>Durata</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <p-dropdown [options]="fasceDisponibili" [(ngModel)]="nuovaPrenotazioneFissa.durata" optionLabel="stringa"
+            optionValue="numero" placeholder="durata">
+        </p-dropdown>
+    </div>
+    <div>
+        <label>Prenotazione</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <input pInputText [(ngModel)]="nuovaPrenotazioneFissa.prenotazione" placeholder="prenotazione" />
+    </div>
+    <button pButton class="p-button-primary" label="Salva" (click)="salvaPrenotazioneFissa()">
+    </button>
+
 </p-dialog>
 
 <p-toast [style]="{'max-width': '80%'}" position="bottom-left" key="tc"></p-toast>
