@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Atleta } from '../domain/Atleta';
 import { Debito } from '../domain/Debito';
 import { Prenotazione } from '../domain/Prenotazione';
+import { PrenotazioneFissa } from '../domain/PrenotazioneFissa';
 import { AtletaService } from '../services/atleta.service';
 import { DebitoService } from '../services/debito.service';
 import { PrenotazioneService } from '../services/prenotazione.service';
@@ -17,6 +18,7 @@ export class ProfiloComponent implements OnInit {
 
   atleta: Atleta = { nome: "", cognome: "", email: "", password: "", admin: false };
   prenotazioni: Prenotazione[] = [];
+  prenotazioniFisse: PrenotazioneFissa[] = [];
   debiti: Debito[] = [];
   aggiungiDebito: boolean = false;
   debito: Debito = {
@@ -43,6 +45,10 @@ export class ProfiloComponent implements OnInit {
             this.prenotazioni = data;
           }
         );
+
+        this.prenotazioneService.getPrenotazioniFisseByAtleta(<number>this.atleta.id).subscribe(data => {
+          this.prenotazioniFisse = data;
+        })
         if (this.atleta.admin) {
           this.debitoService.getAllDebiti().subscribe(
             data => {
@@ -111,28 +117,48 @@ export class ProfiloComponent implements OnInit {
     );
   }
 
-  getInizio(prenotazione: Prenotazione) : string {
+  getInizio(prenotazione: Prenotazione): string {
     let min = 100;
     let inizio = "";
     prenotazione.fasceOrarie.forEach(fascia => {
-      if(<number> fascia.id < min) {
-        min = <number> fascia.id;
-        inizio = <string> fascia.inizio;
+      if (<number>fascia.id < min) {
+        min = <number>fascia.id;
+        inizio = <string>fascia.inizio;
       }
     });
     return inizio;
   }
 
-  getFine(prenotazione: Prenotazione) : string {
+  getFine(prenotazione: Prenotazione): string {
     let max = 0;
     let fine = "";
     prenotazione.fasceOrarie.forEach(fascia => {
-      if(<number> fascia.id > max) {
-        max = <number> fascia.id;
-        fine = <string> fascia.fine;
+      if (<number>fascia.id > max) {
+        max = <number>fascia.id;
+        fine = <string>fascia.fine;
       }
     });
     return fine;
+  }
+
+  convertiGiorno(giorno: number): string {
+    if (giorno == 0) return "Domenica";
+    if (giorno == 1) return "Lunedì";
+    if (giorno == 2) return "Martedì";
+    if (giorno == 3) return "Mercoledì";
+    if (giorno == 4) return "Giovedì";
+    if (giorno == 5) return "Venerdì";
+    if (giorno == 6) return "Sabato";
+    return "";
+  }
+
+  convertiDurata(durata: number): string {
+    if (durata == 2) return "1 ora";
+    if (durata == 3) return "1 ora e mezza";
+    if (durata == 4) return "2 ore";
+    if (durata == 5) return "2 ore e mezza";
+    if (durata == 6) return "3 ore";
+    return "";
   }
 
 }

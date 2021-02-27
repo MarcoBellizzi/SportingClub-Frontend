@@ -42,4 +42,12 @@ export class PrenotazioneService {
     return this.httpClient.delete(`${environment.API_URL}/sporting/eliminaPrenotazioneFissa?id=${id}`);
   }
 
+  aggiungiPrenotazioneDisdetta(id:number, giorno: Date) {
+    return this.httpClient.put<PrenotazioneFissa>(`${environment.API_URL}/sporting/aggiungiPrenotazioneDisdetta?id=${id}`, giorno);
+  }
+
+  getPrenotazioniFisseByAtleta(atletaId: number) {
+    return this.httpClient.get<PrenotazioneFissa[]>(`${environment.API_URL}/sporting/prenotazioniFisseByAtleta?id=${atletaId}`);
+  }
+
 } 

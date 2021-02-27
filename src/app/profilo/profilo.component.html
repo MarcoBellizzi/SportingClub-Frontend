@@ -33,9 +33,9 @@
             <p-table [value]="prenotazioni" [scrollable]="true">
               <ng-template pTemplate="colgroup">
                 <colgroup>
-                  <col style="width: 100px">
-                  <col style="width: 110px">
-                  <col style="width: 80px">
+                  <col style="width: 33%">
+                  <col style="width: 33%">
+                  <col style="width: 33%">
                 </colgroup>
               </ng-template>
               <ng-template pTemplate="header">
@@ -55,6 +55,38 @@
             </p-table>
           </p-card>
         </div>
+
+        <div class="p-col-12">
+          <p-card header="Prenotazioni fisse" [style]="{'background-color':'#f8f9fa'}">
+            <p-table [value]="prenotazioniFisse" [scrollable]="true">
+              <ng-template pTemplate="colgroup">
+                <colgroup>
+                  <col style="width: 25%">
+                  <col style="width: 25%">
+                  <col style="width: 25%">
+                  <col style="width: 25%">
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Giorno</th>
+                  <th>Inizio</th>
+                  <th>Durata</th>
+                  <th>Campo</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-prenotazione>
+                <tr>
+                  <td>{{convertiGiorno(prenotazione.giorno)}}</td>
+                  <td>{{prenotazione.fasciaOraria.inizio}}</td>
+                  <td>{{convertiDurata(prenotazione.durata)}}</td>
+                  <td>{{prenotazione.campo.nome}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+
 
         <div class="p-col-12">
           <p-card header="Pagamenti in sospeso" [style]="{'background-color':'#f8f9fa'}">

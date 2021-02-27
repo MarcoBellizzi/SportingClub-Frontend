@@ -19,21 +19,18 @@ import { PrenotazioneService } from '../services/prenotazione.service';
 export class PrenotazioneComponent implements OnInit {
 
   giorno: Date = new Date();
-
-  campi: Campo[] = [];
-  fasceOrarie: FasciaOraria[] = [];
-
   atleta: Atleta = {};
   prenotazione: Prenotazione = { atleta: {}, campo: {}, fasceOrarie: [] };
   durataa: Ora = {};
+  nuovaPrenotazioneFissa: PrenotazioneFissa = { fasciaOraria: {} };
 
+  campi: Campo[] = [];
+  fasceOrarie: FasciaOraria[] = [];
   prenotazioni: Prenotazione[] = [];
+  tuttiAtleti: Atleta[] = [];
   atleti: Atleta[] = [];
   admin: Atleta[] = [];
-
-  visualizzaPrenotazione: boolean = false;
-  visualizzaAddPrenotazione: boolean = false;
-
+  prenotazioniFisse: PrenotazioneFissa[] = [];
   fasceDisponibili: Ora[] = [
     { numero: 2, stringa: "1 ora" },
     { numero: 3, stringa: "1 ora e mezza" },
@@ -41,28 +38,31 @@ export class PrenotazioneComponent implements OnInit {
     { numero: 5, stringa: "2 ore e mezza" },
     { numero: 6, stringa: "3 ore" }
   ];
+  tipi: any[] = [
+    { tipo: "Tennis" },
+    { tipo: "Calcio" }
+  ];
+  giorniDellaSettimana: any[] = [
+    { nome: "Domenica", valore: 0 },
+    { nome: "Lunedì", valore: 1 },
+    { nome: "Martedì", valore: 2 },
+    { nome: "Mercoledì", valore: 3 },
+    { nome: "Giovedì", valore: 4 },
+    { nome: "Venerdì", valore: 5 },
+    { nome: "Sabato", valore: 6 },
+  ];
 
   nameSelected: boolean = false;
   oreSelected: boolean = false;
   selected: boolean = false;
 
-  tipi: any[] = [{ tipo: "Tennis" }, { tipo: "Calcio" }];
-
-  visualizzaPrenotazioniFisse: boolean = false;
+  visualizzaPrenotazione: boolean = false;
+  visualizzaAddPrenotazione: boolean = false;
   visualizzaNuovaPrenotazioneFissa: boolean = false;
+  visualizzaBanner: boolean = true;
+  visualizzaPrenotazioniFisse: boolean = false;
+  visualizzaPrenotazioneFissa: boolean = false;
 
-  giorniDellaSettimana: any[] = [
-    {nome: "Domenica", valore: 0},
-    {nome: "Lunedì", valore: 1},
-    {nome: "Martedì", valore: 2},
-    {nome: "Mercoledì", valore: 3},
-    {nome: "Giovedì", valore: 4},
-    {nome: "Venerdì", valore: 5},
-    {nome: "Sabato", valore: 6},
-  ]
-
-  nuovaPrenotazioneFissa: PrenotazioneFissa = {fasciaOraria:{}};
-  prenotazioniFisse: PrenotazioneFissa[] = [];
 
   constructor(
     private campoService: CampoService,
@@ -80,21 +80,19 @@ export class PrenotazioneComponent implements OnInit {
     );
     this.campoService.getCampi().subscribe(data => {
       this.campi = data;
-    }
-    );
+    });
     this.fasciaOrariaService.getFasceOrarie().subscribe(data => {
       this.fasceOrarie = data;
     });
-    this.atletaService.getAdmin().subscribe(
-      data => {
+    this.atletaService.getAtleti().subscribe(data => {
+      this.tuttiAtleti = data;
+    })
+    this.atletaService.getAdmin().subscribe(data => {
         this.admin = data;
-      }
-    );
-    this.atletaService.getNotAdmin().subscribe(
-      data => {
+    });
+    this.atletaService.getNotAdmin().subscribe(data => {
         this.atleti = data;
-      }
-    );
+    });
     this.aggiornaPrenotazioni();
     this.aggiornaPrenotazioniFisse();
   }
@@ -189,7 +187,7 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   getPrenotazione(fasciaOraria: FasciaOraria, campo: Campo): Prenotazione {
-    let desiderata: Prenotazione = { atleta: {admin:true}, campo: {}, fasceOrarie: [], libera:true };
+    let desiderata: Prenotazione = { atleta: { admin: true }, campo: {}, fasceOrarie: [], libera: true };
     this.prenotazioni.forEach(prenotazione => {
       if (prenotazione.campo.id == campo.id) {
         prenotazione.fasceOrarie?.forEach(fascia => {
@@ -308,7 +306,7 @@ export class PrenotazioneComponent implements OnInit {
         this.aggiornaPrenotazioniFisse();
         this.visualizzaNuovaPrenotazioneFissa = false;
         this.visualizzaPrenotazioniFisse = true;
-        this.nuovaPrenotazioneFissa = {fasciaOraria:{}};
+        this.nuovaPrenotazioneFissa = { fasciaOraria: {} };
         this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'Prenotazione Fissa salvata' });
       }, error => {
         this.messageService.add({ key: 'tc', severity: 'error', summary: 'Service Message', detail: 'Prenotazione Fissa non salvata' });
@@ -328,36 +326,138 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   convertiGiorno(giorno: number): string {
-    if(giorno == 0) return "Domenica";
-    if(giorno == 1) return "Lunedì";
-    if(giorno == 2) return "Martedì";
-    if(giorno == 3) return "Mercoledì";
-    if(giorno == 4) return "Giovedì";
-    if(giorno == 5) return "Venerdì";
-    if(giorno == 6) return "Sabato";
+    if (giorno == 0) return "Domenica";
+    if (giorno == 1) return "Lunedì";
+    if (giorno == 2) return "Martedì";
+    if (giorno == 3) return "Mercoledì";
+    if (giorno == 4) return "Giovedì";
+    if (giorno == 5) return "Venerdì";
+    if (giorno == 6) return "Sabato";
     return "";
   }
 
   convertiDurata(durata: number): string {
-    if(durata == 2) return "1 ora";
-    if(durata == 3) return "1 ora e mezza";
-    if(durata == 4) return "2 ore";
-    if(durata == 5) return "2 ore e mezza";
-    if(durata == 6) return "3 ore";
+    if (durata == 2) return "1 ora";
+    if (durata == 3) return "1 ora e mezza";
+    if (durata == 4) return "2 ore";
+    if (durata == 5) return "2 ore e mezza";
+    if (durata == 6) return "3 ore";
     return "";
+  }
+
+  getColor(id: number) {
+    if ((id - 1) % 4 < 2) return "white";
+    return "#DBFCBF";
   }
 
   prenotatoDaPrenotazioneFissa(fasciaOraria: FasciaOraria, campo: Campo): boolean {
     var condizione = false;
+    var disdetta = false;
     this.prenotazioniFisse.forEach(prenotazione => {
       if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
         if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
-              <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+          <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
           condizione = true;
+
+          prenotazione.prenotazioniDisdetteCustom?.forEach(giorno => {
+            if (giorno.giorno == this.giorno.getDate() && giorno.mese == this.giorno.getMonth() + 1 && giorno.anno == this.giorno.getFullYear()) {
+              disdetta = true;
+            }
+          });
+        }
+      }
+    });
+    return condizione && !disdetta;
+  }
+
+  // copia del metodo di sopra con l aggiunta del controllo sull atleta
+  tuaPrenotazioneFissa(fasciaOraria: FasciaOraria, campo: Campo): boolean {
+    var condizione = false;
+    this.prenotazioniFisse.forEach(prenotazione => {
+      if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
+        if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
+          <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+          
+            if (prenotazione.prenotazione?.id == this.atleta.id) {
+              condizione = true;
+            }
+          
         }
       }
     })
     return condizione;
   }
+
+  getNomePrenotazioneFissa(fasciaOraria: FasciaOraria, campo: Campo): string {
+    let nome: string = "";
+    this.prenotazioniFisse.forEach(prenotazione => {
+      if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
+        if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
+          <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+          nome = <string>prenotazione.prenotazione?.username;
+        }
+      }
+    });
+    return nome;
+  }
+
+  showSingolaPrenotazioneFissa(fasciaOraria: FasciaOraria, campo: Campo) {
+    this.prenotazioniFisse.forEach(prenotazione => {
+      if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
+        if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
+          <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+          this.prenotazione = {
+            atleta: <Atleta>prenotazione.prenotazione,
+            campo: <Campo>prenotazione.campo,
+            fasceOrarie: [fasciaOraria],
+          };
+        }
+      }
+    });
+    this.visualizzaPrenotazioneFissa = true;
+  }
+
+  eliminaSingolaPrenotazioneFissa() {
+    this.prenotazioniFisse.forEach(prenotazione => {
+      if ((<Campo>prenotazione.campo).id === this.prenotazione.campo.id && prenotazione.giorno === this.giorno.getDay()) {
+        if (<number>this.prenotazione.fasceOrarie[0].id >= <number>prenotazione.fasciaOraria.id &&
+          <number>this.prenotazione.fasceOrarie[0].id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+          this.giorno.setDate(this.giorno.getDate() + 1);
+          this.prenotazioneService.aggiungiPrenotazioneDisdetta(<number>prenotazione.id, this.giorno).subscribe(data => {
+            this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'Prenotazione disdetta con successo' });
+            this.aggiornaPrenotazioniFisse();
+          }, error => {
+            this.messageService.add({ key: 'tc', severity: 'error', summary: 'Service Message', detail: 'Prenotazione non eliminata' });
+          })
+          this.giorno.setDate(this.giorno.getDate() - 1);
+        }
+      }
+    });
+    this.visualizzaPrenotazioneFissa = false;
+  }
+
+  eliminaSingolaPrenotazioneFissaNoAdmin(fasciaOraria: FasciaOraria, campo: Campo) {
+    if (this.giorno.getDate() == new Date().getDate() && this.giorno.getMonth() == new Date().getMonth()) {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Esito', detail: 'Non puoi annullare la prenotazione il giorno stesso. Si può annullare la prenotazione entro il giorno prima.' })
+    }
+    else {
+      this.prenotazioniFisse.forEach(prenotazione => {
+        if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
+          if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
+            <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+            this.giorno.setDate(this.giorno.getDate() + 1);
+            this.prenotazioneService.aggiungiPrenotazioneDisdetta(<number>prenotazione.id, this.giorno).subscribe(data => {
+              this.messageService.add({ key: 'tc', severity: 'success', summary: 'Service Message', detail: 'Prenotazione disdetta con successo' });
+              this.aggiornaPrenotazioniFisse();
+            }, error => {
+              this.messageService.add({ key: 'tc', severity: 'error', summary: 'Service Message', detail: 'Prenotazione non eliminata' });
+            })
+            this.giorno.setDate(this.giorno.getDate() - 1);
+          }
+        }
+      })
+    }
+  }
+  
 
 }
