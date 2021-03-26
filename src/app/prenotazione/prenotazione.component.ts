@@ -88,21 +88,13 @@ export class PrenotazioneComponent implements OnInit {
       this.tuttiAtleti = data;
     })
     this.atletaService.getAdmin().subscribe(data => {
-        this.admin = data;
+      this.admin = data;
     });
     this.atletaService.getNotAdmin().subscribe(data => {
-        this.atleti = data;
+      this.atleti = data;
     });
     this.aggiornaPrenotazioni();
     this.aggiornaPrenotazioniFisse();
-  }
-
-  aggiornaPrenotazioniFisse() {
-    this.prenotazioneService.getPrenotazioniFissa().subscribe(
-      data => {
-        this.prenotazioniFisse = data;
-      }
-    )
   }
 
   aggiornaPrenotazioni() {
@@ -116,6 +108,14 @@ export class PrenotazioneComponent implements OnInit {
     this.giorno.setDate(this.giorno.getDate() - 1);  // ripristino perchè non chiamo il refresh
   }
 
+  aggiornaPrenotazioniFisse() {
+    this.prenotazioneService.getPrenotazioniFissa().subscribe(
+      data => {
+        this.prenotazioniFisse = data;
+      }
+    )
+  }
+
   reset() {
     this.nameSelected = false;
     this.oreSelected = false;
@@ -125,25 +125,44 @@ export class PrenotazioneComponent implements OnInit {
 
   showAddPrenotazione(fasciaOraria: FasciaOraria, campo: Campo) {
     this.reset();
+
+    // disabilita le fascia orarie non disponibili
     let finito: boolean = false;
+    let occupato: boolean = false;
     for (let i = 1; i < 6; i++) {
       this.prenotazioni.forEach(prenotazione => {
         if (prenotazione.campo.id == campo.id) {
-          let occupato: boolean = false;
           prenotazione.fasceOrarie.forEach(fascia => {
             if (fascia.id == <number>fasciaOraria?.id + i) {
               occupato = true;
             }
           });
-          if (occupato || <number>fasciaOraria?.id + i > 32) {
-            this.fasceDisponibili[i - 1].disabled = true;
-            finito = true;
-          }
-          else {
-            this.fasceDisponibili[i - 1].disabled = finito;
+        }
+      });
+      this.prenotazioniFisse.forEach(prenotazione => {
+        console.log(fasciaOraria.id + " " + prenotazione.fasciaOraria.id + " " + prenotazione.durata);
+        if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
+          if (<number>fasciaOraria.id + i >= <number>prenotazione.fasciaOraria.id &&
+            <number>fasciaOraria.id + i < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
+            var disdetta: boolean = false;
+            prenotazione.prenotazioniDisdetteCustom?.forEach(giorno => {
+              if (giorno.giorno == this.giorno.getDate() && giorno.mese == this.giorno.getMonth() + 1 && giorno.anno == this.giorno.getFullYear()) {
+                disdetta = true;
+              }
+            });
+            if (!disdetta) {
+              occupato = true;
+            }
           }
         }
       });
+      if (occupato || <number>fasciaOraria?.id + i > 32) {
+        this.fasceDisponibili[i - 1].disabled = true;
+        finito = true;
+      }
+      else {
+        this.fasceDisponibili[i - 1].disabled = finito;
+      }
     }
 
     this.prenotazione = {
@@ -377,11 +396,11 @@ export class PrenotazioneComponent implements OnInit {
       if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
         if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
           <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
-          
-            if (prenotazione.prenotazione?.id == this.atleta.id) {
-              condizione = true;
-            }
-          
+
+          if (prenotazione.prenotazione?.id == this.atleta.id) {
+            condizione = true;
+          }
+
         }
       }
     })
@@ -458,6 +477,6 @@ export class PrenotazioneComponent implements OnInit {
       })
     }
   }
-  
+
 
 }
