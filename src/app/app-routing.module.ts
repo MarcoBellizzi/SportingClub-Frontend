@@ -6,6 +6,7 @@ import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
 import { ProfiloComponent } from './profilo/profilo.component';
 import { RegistrazioneComponent } from './registrazione/registrazione.component';
 import { StrutturaComponent } from './struttura/struttura.component';
+import { SugarComponent } from './sugar/sugar.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path:'prenotazione', component: PrenotazioneComponent},
   {path:'registrazione', component: RegistrazioneComponent},
   {path:'profilo', component: ProfiloComponent},
-  {path:'struttura', component: StrutturaComponent}
+  {path:'struttura', component: StrutturaComponent},
+  {path:'sugar', component: SugarComponent}
 ];
 
 @NgModule({

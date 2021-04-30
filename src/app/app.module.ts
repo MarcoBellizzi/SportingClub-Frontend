@@ -29,10 +29,11 @@ import { MessageService } from 'primeng/api';
 import { ProfiloComponent } from './profilo/profilo.component';
 import { StrutturaComponent } from './struttura/struttura.component';
 import { FooterComponent } from './footer/footer.component';
+import { SugarComponent } from './sugar/sugar.component';
 
 
 @NgModule({
-  declarations: [												
+  declarations: [													
     AppComponent,
       LoginComponent,
       HomeComponent,
@@ -41,7 +42,8 @@ import { FooterComponent } from './footer/footer.component';
       RegistrazioneComponent,
       ProfiloComponent,
       StrutturaComponent,
-      FooterComponent
+      FooterComponent,
+      SugarComponent
    ],
   imports: [
     BrowserModule,
