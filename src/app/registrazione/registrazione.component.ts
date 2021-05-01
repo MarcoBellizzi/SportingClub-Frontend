@@ -25,6 +25,8 @@ export class RegistrazioneComponent implements OnInit {
   registrati() {
     this.atletaService.save(this.atleta).subscribe(
       response => {
+        sessionStorage.setItem("nome", <string> this.atleta.nome);
+        sessionStorage.setItem("cognome", <string> this.atleta.cognome);
         this.messageService.add({ sticky: true, key: 'tc', severity: 'success', summary: 'Utente registrato', detail: 'Benvenuto allo Sporting Club!' });
       },
       any => {
@@ -38,8 +40,6 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   vaiAllaHome() {
-    sessionStorage.setItem("nome", <string> this.atleta.nome);
-    sessionStorage.setItem("cognome", <string> this.atleta.cognome);
     this.route.navigate(['home']);
   }
 
