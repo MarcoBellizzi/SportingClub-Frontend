@@ -63,7 +63,7 @@
           <label>Cognome</label>
           <div class="form-group">
             <input pInputText class="form-control" id="inCognome" name="inCognome" #inCognome="ngModel" required
-              style="max-width: 400px;" minlength="3" minlength="3" [(ngModel)]="atleta.cognome"
+              style="max-width: 400px;" minlength="3" [(ngModel)]="atleta.cognome"
               [ngClass]="{'is-invalid': f.submitted && inCognome.invalid }" />
             <div *ngIf="inCognome.dirty && inCognome.touched && inCognome.invalid">
               Lunghezza minima 3
@@ -79,6 +79,18 @@
               [ngClass]="{'is-invalid': f.submitted && inTelefono.invalid }" />
             <div *ngIf="inTelefono.dirty && inTelefono.touched && inTelefono.invalid">
               Solo numeri permessi, lunghezza 10
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label>Livello</label>
+          <div class="form-group">
+            <input pInputText class="form-control" id="inLivello" name="inLivello" #inLivello="ngModel" required
+              style="max-width: 400px;" minlength="3" [(ngModel)]="atleta.livello"
+              [ngClass]="{'is-invalid': f.submitted && inLivello.invalid }" />
+            <div *ngIf="inLivello.dirty && inLivello.touched && inLivello.invalid">
+              Lunghezza minima 3
             </div>
           </div>
         </div>
