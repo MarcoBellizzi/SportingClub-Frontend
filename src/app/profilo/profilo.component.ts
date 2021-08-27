@@ -26,6 +26,7 @@ export class ProfiloComponent implements OnInit {
     descrizione: ""
   }
   atleti: Atleta[] = [];
+  modificaDati: boolean = false;
 
   constructor(
     private atletaService: AtletaService,
@@ -159,6 +160,21 @@ export class ProfiloComponent implements OnInit {
     if (durata == 5) return "2 ore e mezza";
     if (durata == 6) return "3 ore";
     return "";
+  }
+
+  modifica(): void {
+    this.atletaService.update(this.atleta).subscribe(
+      data => {
+        this.messageService.add({ key: 'tc', severity: 'success', summary: 'Esito', detail: 'Dati modificati' });
+        this.modificaDati = false;
+        sessionStorage.setItem("nome", <string> this.atleta.nome);
+        sessionStorage.setItem("cognome", <string> this.atleta.cognome)
+      },
+      err => {
+        this.messageService.add({ key: 'tc', severity: 'error', summary: 'Esito', detail: 'Dati non modificati' });
+        this.modificaDati = false;
+      },
+    )
   }
 
 }

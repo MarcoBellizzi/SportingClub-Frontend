@@ -36,4 +36,8 @@ export class AtletaService {
     return this.httpClient.get<Atleta[]>(`${environment.API_URL}/sporting/atleti/notAdmin`)
   }
 
+  update(atletaDto: Atleta): Observable<Atleta> {
+    return this.httpClient.put<Atleta>(`${environment.API_URL}/sporting/atleta/update`, atletaDto)
+  }
+
 }
