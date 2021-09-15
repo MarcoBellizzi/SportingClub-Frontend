@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Atleta } from '../domain/Atleta';
 import { Campo } from '../domain/Campo';
@@ -69,10 +70,12 @@ export class PrenotazioneComponent implements OnInit {
     private fasciaOrariaService: FasciaOrariaService,
     private messageService: MessageService,
     private atletaService: AtletaService,
-    private prenotazioneService: PrenotazioneService
+    private prenotazioneService: PrenotazioneService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Sporting Club - Prenotazione")
     this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string>sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.atleta = response;
@@ -413,7 +416,17 @@ export class PrenotazioneComponent implements OnInit {
       if ((<Campo>prenotazione.campo).id === campo.id && prenotazione.giorno === this.giorno.getDay()) {
         if (<number>fasciaOraria.id >= <number>prenotazione.fasciaOraria.id &&
           <number>fasciaOraria.id < (<number>prenotazione.fasciaOraria.id + <number>prenotazione.durata)) {
-          nome = <string>prenotazione.prenotazione?.username;
+            if (prenotazione.prenotazione) {
+              nome = <string>prenotazione.prenotazione?.username;
+            } else {
+              if (prenotazione.dettagli) {
+                nome = prenotazione.dettagli;
+              } else {
+                nome = "Prenotato"
+              }
+            }
+
+
         }
       }
     });

@@ -12,8 +12,8 @@ export class AtletaService {
     private httpClient: HttpClient
   ) { }
 
-  login(email:string, password: string): Observable<Atleta> {
-    return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/login?email=${email}&password=${password}`);
+  login(telefono:number|undefined, password: string): Observable<Atleta> {
+    return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/login?telefono=${telefono}&password=${password}`);
   }
 
   save(atleta: Atleta): Observable<Atleta> {

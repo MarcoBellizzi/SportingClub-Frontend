@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Atleta } from '../domain/Atleta';
@@ -11,15 +12,18 @@ import { AtletaService } from '../services/atleta.service';
 })
 export class RegistrazioneComponent implements OnInit {
 
-  atleta: Atleta = {id:0, nome:"", cognome:"", email:"", password:"", admin:false};
+  atleta: Atleta = {id:0, nome:"", cognome:"", password:"", admin:false};
+  livelli: any[] = [{nome: "Base"},{nome:"Medio"},{nome:"Avanzato"}]
 
   constructor(
     private route: Router,
     private atletaService: AtletaService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Sporting Club - Registrazione");
   }
 
   registrati() {

@@ -1,28 +1,14 @@
-<div style="background-color: #B9FF98; margin-bottom: 4rem;">
+<div style="background-color: #ccff99; padding-bottom: 4rem">
+
   <app-navbar></app-navbar>
 
-  <div class="p-grid" style="margin-top: 2rem; margin-left: 1rem; margin-right: 1rem;">
-
-    <div class="col-xs-1 col-md-3">
-    </div>
-
-    <div class="col-xs-10 col-md-6" style="margin-bottom: 30px;">
-      <div style="position: center;">
-        <img src="../../assets/immagini/home.jpeg" alt="home" style="width:100%; height:auto;">
-      </div>
-    </div>
-
-    <div class="col-xs-1 col-md-3">
-    </div>
-  </div>
+  <app-struttura></app-struttura>
 
   <div class="p-grid" style="margin-top: 2rem; margin-left: 1rem; margin-right: 1rem;">
 
     <div class="p-xm-12 p-md-6">
       <div class="p-col-12">
         <p-card header="Profilo" [style]="{'background-color':'#f8f9fa'}">
-
-
           <form #f="ngForm" (ngSubmit)="f.form.valid && modifica()" novalidate>
 
             <div *ngIf="!modificaDati" style="text-align: right;">
@@ -37,39 +23,9 @@
             </div>
 
             <div style="margin-bottom: 1rem;">
-              <label>Email</label>
+              <div><strong>Nome</strong></div>
               <div *ngIf="!modificaDati">
-                <label>{{atleta.email}}</label>
-              </div>
-              <div *ngIf="modificaDati" class="form-group">
-                <input pInputText class="form-control" id="inEmail" name="inEmail" #inEmail="ngModel" required
-                  style="max-width: 400px;" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}"
-                  [(ngModel)]="atleta.email" [ngClass]="{'is-invalid': f.submitted && inEmail.invalid }" />
-                <div *ngIf="inEmail.dirty && inEmail.touched && inEmail.invalid">
-                  Formato email non permesso
-                </div>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 1rem;">
-              <label>Password</label>
-              <div *ngIf="!modificaDati">
-                <label>{{atleta.password}}</label>
-              </div>
-              <div *ngIf="modificaDati" class="form-group">
-                <input pPassword type="password" class="form-control" id="inPassword" name="inPassword"
-                  #inPassword="ngModel" style="max-width: 400px;" required minlength="3" [(ngModel)]="atleta.password"
-                  [ngClass]="{'is-invalid': f.submitted && inPassword.invalid }" />
-                <div *ngIf="inPassword.dirty && inPassword.touched && inPassword.invalid">
-                  Lunghezza minima 3
-                </div>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 1rem;">
-              <label>Nome</label>
-              <div *ngIf="!modificaDati">
-                <label>{{atleta.nome}}</label>
+                <div>{{atleta.nome}}</div>
               </div>
               <div *ngIf="modificaDati" class="form-group">
                 <input pInputText class="form-control" id="inNome" name="inNome" #inNome="ngModel" required minlength="3"
@@ -82,9 +38,9 @@
             </div>
 
             <div style="margin-bottom: 1rem;">
-              <label>Cognome</label>
+              <div><strong>Cognome</strong></div>
               <div *ngIf="!modificaDati">
-                <label>{{atleta.cognome}}</label>
+                <div>{{atleta.cognome}}</div>
               </div>
               <div *ngIf="modificaDati" class="form-group">
                 <input pInputText class="form-control" id="inCognome" name="inCognome" #inCognome="ngModel" required
@@ -97,9 +53,9 @@
             </div>
 
             <div style="margin-bottom: 1rem;">
-              <label>Telefono</label>
+              <div><strong>Telefono</strong></div>
               <div *ngIf="!modificaDati">
-                <label>{{atleta.telefono}}</label>
+                <div>{{atleta.telefono}}</div>
               </div>
               <div *ngIf="modificaDati" class="form-group">
                 <input pInputText class="form-control" id="inTelefono" name="inTelefono" #inTelefono="ngModel" required
@@ -112,15 +68,15 @@
             </div>
 
             <div style="margin-bottom: 1rem;">
-              <label>Livello</label>
+              <div><strong>Password</strong></div>
               <div *ngIf="!modificaDati">
-                <label>{{atleta.livello}}</label>
+                <div>{{atleta.password}}</div>
               </div>
-              <div *ngIf="modificaDati"class="form-group">
-                <input pInputText class="form-control" id="inLivello" name="inLivello" #inLivello="ngModel" required
-                  style="max-width: 400px;" minlength="3" [(ngModel)]="atleta.livello"
-                  [ngClass]="{'is-invalid': f.submitted && inLivello.invalid }" />
-                <div *ngIf="inLivello.dirty && inLivello.touched && inLivello.invalid">
+              <div *ngIf="modificaDati" class="form-group">
+                <input pPassword type="password" class="form-control" id="inPassword" name="inPassword"
+                  #inPassword="ngModel" style="max-width: 400px;" required minlength="3" [(ngModel)]="atleta.password"
+                  [ngClass]="{'is-invalid': f.submitted && inPassword.invalid }" />
+                <div *ngIf="inPassword.dirty && inPassword.touched && inPassword.invalid">
                   Lunghezza minima 3
                 </div>
               </div>

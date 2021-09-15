@@ -4,8 +4,6 @@ export interface Atleta {
     cognome?: string;
     username?: string;
     telefono?: number;
-    email?: string;
     password?: string;
     admin?: boolean;
-    livello?: string;
 }

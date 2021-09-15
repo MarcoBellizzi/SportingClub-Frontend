@@ -1,93 +1,62 @@
-<div style="background-color: #B9FF98; margin-bottom: 4rem;">
+<app-navbar></app-navbar>
 
-  <app-navbar></app-navbar>
+<app-struttura></app-struttura>
 
-  <div class="p-grid" style="margin-top: 2rem; margin-left: 1rem; margin-right: 1rem;">
+<div class="p-grid"
+  style="margin-top: 0rem; margin-left: 0rem; margin-right: 0rem; padding-left: 0px; padding-right: 0px;">
 
-    <div class="col-xs-1 col-md-3">
-    </div>
-
-    <div class="col-xs-10 col-md-6" style="margin-bottom: 30px;">
-      <div style="position: center;">
-        <img src="../../assets/immagini/home.jpeg" alt="home" style="width:100%; height:auto;">
-      </div>
-    </div>
-
-    <div class="col-xs-1 col-md-3">
-    </div> 
-
-    <div class="col-md-4">
-      <p-card header="Struttura" subheader="Visualizza la struttura" class="p-mb-2 p-mr-2">
-        Lo sporting club Mendicino è un'ampia struttura contenente 2 campi da Tennis all' aperto, 1 al chiuso e
-        due campi da Calcio. Clicca sotto per vedere le foto.
-        <p-footer>
-          <div class="p-d-flex p-flex-row">
-            <div class="p-ml-auto">
-              <button (click)="navigate('struttura');" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                iconPos="right" class="p-button-text p-button-text"></button>
-            </div>
-          </div>
-        </p-footer>
-      </p-card>
-    </div>
-
-    <div class="col-md-4">
-      <p-card header="Prenotazione" subheader="Prenota una campo" class="p-mb-2 p-mr-2 ">
+  <div class="col-md-6" style="background-color: #ccff99;">
+    <p-card [style]="{'background-color': '#daffb3'}">
+      <h1 style="text-align: center; margin-bottom: 2rem;">Prenota un campo</h1>
+      <h4 style="text-align: center;">
         Lo sporting club Mendicino offre un servizio in cui è possibile visualizzare la
         disponibilità dei campi ed effettuare prenotazioni.
-        <p-footer>
-          <div class="p-d-flex p-flex-row">
-            <div class="p-ml-auto">
-              <button (click)="redirect('prenotazione')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                iconPos="right" class="p-button-text p-button-text"></button>
-            </div>
-          </div>
-        </p-footer>
-      </p-card>
-    </div>
-
-    <div class="col-md-4">
-      <p-card header="Profilo" subheader="Visualizza i tuoi dati" class="p-mb-2 p-mr-2 ">
-        In questa pagina sono presenti i tuoi dati anagrafici e le prenotazioni in corso, clicca sotto per accedere.
-        <p-footer>
-          <div class="p-d-flex p-flex-row">
-            <div class="p-ml-auto">
-              <button (click)="redirect('profilo')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                iconPos="right" class="p-button-text p-button-text"></button>
-            </div>
-          </div>
-        </p-footer>
-      </p-card>
-    </div>
-
-    <div class="col-md-4">
-      <p-card header="Log in" class="p-mb-2 p-mr-2 ">
-        Effettua il login
-        <p-footer>
-          <div class="p-d-flex p-flex-row" style="margin-top: 15px;">
-            <div class="p-ml-auto">
-              <button (click)="navigate('login')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                iconPos="right" class="p-button-text p-button-text"></button>
-            </div>
-          </div>
-        </p-footer>
-      </p-card>
-    </div>
-
-    <div class="col-md-4">
-      <p-card header="Registrati" class="p-mb-2 p-mr-2 ">
-        Se non sei ancora registrato, fallo ora!
-        <p-footer>
-          <div class="p-d-flex p-flex-row">
-            <div class="p-ml-auto">
-              <button (click)="navigate('registrazione')" pButton type="button" label="Vai" icon="pi pi-arrow-right"
-                iconPos="right" class="p-button-text p-button-text"></button>
-            </div>
-          </div>
-        </p-footer>
-      </p-card>
-    </div>
-
+      </h4>
+      <div style="text-align: center; margin-top: 2rem;">
+        <button (click)="redirect('prenotazione')" pButton type="button" label="Prenota" icon="pi pi-arrow-right"
+          iconPos="right" class="p-button-text p-button-text"></button>
+      </div>
+    </p-card>
   </div>
+
+  <div class="col-md-6">
+    <p-card [style]="{'height': '100%','background-color': '#daffb3'}">
+      <h1 style="text-align: center; margin-bottom: 2rem;">Il tuo Profilo</h1>
+      <h4 style="text-align: center;">
+        In questa pagina sono presenti i tuoi dati anagrafici e le prenotazioni in corso.
+      </h4>
+      <div style="text-align: center; margin-top: 2rem; height: 100%;">
+        <button (click)="redirect('profilo')" pButton type="button" label="Visualizza" icon="pi pi-arrow-right"
+          iconPos="right" class="p-button-text p-button-text"></button>
+      </div>
+    </p-card>
+  </div>
+
+  <div class="col-md-6">
+    <p-card [style]="{'background-color': '#daffb3'}">
+      <h1 style="text-align: center; margin-bottom: 2rem;">Log In</h1>
+      <h4 style="text-align: center;">
+        Effettua il login per poter accedere al tuo profilo ed visualizzare le prenotazioni
+      </h4>
+      <div style="text-align: center; margin-top: 2rem;">
+        <button (click)="navigate('login')" pButton type="button" label="Accedi" icon="pi pi-arrow-right"
+          iconPos="right" class="p-button-text p-button-text"></button>
+      </div>
+    </p-card>
+  </div>
+
+  <div class="col-md-6">
+    <p-card [style]="{'height': '100%', 'background-color': '#daffb3'}">
+      <h3 style="text-align: center; margin-bottom: 2rem;">
+        Se non sei ancora registrato, fallo ora!
+      </h3>
+      <div style="text-align: center; margin-top: 2rem;">
+        <button (click)="navigate('registrazione')" pButton type="button" label="Registrati" icon="pi pi-arrow-right"
+          iconPos="right" class="p-button-text p-button-text"></button>
+      </div>
+    </p-card>
+  </div>
+
 </div>
+
 <app-footer></app-footer>

@@ -1,38 +1,6 @@
-<div style="background-color: #B9FF98; margin-bottom: 4rem;">
-  <app-navbar></app-navbar>
-
-  <div class="p-grid" style="margin-top: 2rem; margin-left: 1rem; margin-right: 1rem;">
-
-    <div class="col-xs-1 col-md-3">
-    </div>
-
-    <div class="col-xs-10 col-md-6" style="margin-bottom: 30px;">
-      <div style="position: center;">
-        <img src="../../assets/immagini/home.jpeg" alt="home" style="width:100%; height:auto;">
-      </div>
-    </div>
-
-    <div class="col-xs-1 col-md-3">
-    </div>
-  </div>
-
-  <div
-    style="margin-top: 3rem; margin-left: auto; margin-right: auto; max-width: 800px; padding-left: 20px; padding-right: 20px;">
-    <p-card [style]="{'background-color':'#f8f9fa'}">
-      <div>
-        <p-carousel [value]="ambienti">
-          <ng-template let-ambiente pTemplate="item">
-            <div style="text-align: center; margin-bottom: 2rem;">
-              <h2>{{ambiente.nome}}</h2>
-              {{ambiente.descrizione}}
-            </div>
-            <img src="../../assets/immagini/{{ambiente.photo}}" alt="{{ambiente.titolo}}"
-              style="width:100%; height:auto;">
-          </ng-template>
-        </p-carousel>
-      </div>
-    </p-card>
-  </div>
-</div>
-
-<app-footer></app-footer>
+<p-galleria [value]="immagini" [containerStyle]="{'width': '100%', 'max-height': '30rem'}" [numVisible]="5"
+    [circular]="true" [showItemNavigators]="true" [showThumbnails]="false">
+    <ng-template pTemplate="item" let-item>
+        <img [src]="item.src" style="width: 100%; max-height: 30rem; display: block;" />
+    </ng-template>
+</p-galleria>

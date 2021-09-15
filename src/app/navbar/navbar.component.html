@@ -1,7 +1,11 @@
 <div>
-    <p-menubar [model]="items" [style]="{'background-color': '#14490a'}">
-    </p-menubar>
-     
+  <p-menubar [model]="items" [style]="{'background-color': '#14490a'}">
+    <ng-template pTemplate="start">
+      <a href="">
+        <img src="../../assets/immagini/logo.png" height="40" class="p-mr-2">
+      </a>
+    </ng-template>
+  </p-menubar>
 </div>
 
 <p-toast [style]="{'max-width': '80%'}" position="top-center" key="nav"></p-toast>

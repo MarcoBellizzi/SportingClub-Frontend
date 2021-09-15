@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Atleta } from '../domain/Atleta';
 import { Debito } from '../domain/Debito';
@@ -16,13 +17,13 @@ import { PrenotazioneService } from '../services/prenotazione.service';
 })
 export class ProfiloComponent implements OnInit {
 
-  atleta: Atleta = { nome: "", cognome: "", email: "", password: "", admin: false };
+  atleta: Atleta = { nome: "", cognome: "", password: "", admin: false };
   prenotazioni: Prenotazione[] = [];
   prenotazioniFisse: PrenotazioneFissa[] = [];
   debiti: Debito[] = [];
   aggiungiDebito: boolean = false;
   debito: Debito = {
-    atleta: { nome: "", cognome: "", email: "", password: "", admin: false },
+    atleta: { nome: "", cognome: "", password: "", admin: false },
     descrizione: ""
   }
   atleti: Atleta[] = [];
@@ -32,10 +33,12 @@ export class ProfiloComponent implements OnInit {
     private atletaService: AtletaService,
     private prenotazioneService: PrenotazioneService,
     private debitoService: DebitoService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Sporting Club - Profilo");
     this.atletaService.getAtleta(<string>sessionStorage.getItem("nome"), <string>sessionStorage.getItem("cognome")).subscribe(
       response => {
         this.atleta = response;
@@ -79,7 +82,7 @@ export class ProfiloComponent implements OnInit {
 
   visualizzaAggiungiDebito() {
     this.debito = {
-      atleta: { nome: "", cognome: "", email: "", password: "", admin: false },
+      atleta: { nome: "", cognome: "", password: "", admin: false },
       descrizione: ""
     }
     this.aggiungiDebito = true;

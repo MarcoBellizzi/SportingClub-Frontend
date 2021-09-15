@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Ambiente } from '../domain/Ambiente';
-import { CampoService } from '../services/campo.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-struttura',
@@ -9,53 +8,72 @@ import { CampoService } from '../services/campo.service';
 })
 export class StrutturaComponent implements OnInit {
 
-  ambienti: Ambiente[] = [{
-      nome: "Campo da Tennis in terra rossa 1",
-      descrizione: "Campo da tennis in terra rossa centrale",
-      photo: "campoTennis1-1.jpg"
-    },{
-      nome:"Campo da Tennis in terra rossa 1",
-      descrizione: "Campo da tennis in terra rossa centrale",
-      photo: "campoTennis1.jpg"
-    },{
-      nome: "Campo da Tennis in terra rossa 2", 
-      descrizione: "Campo da tennis in terra rossa laterale", 
-      photo: "campoTennis2.jpg"
-    },{
-      nome:"Campo da Tennis coperto",
-      descrizione: "Campo da tennis coperto ideale per le giornate piovose o ventose",
-      photo: "campoTennisCoperto.jpg"
-    },{
-      nome: "Campo da Tennis e Calcetto",
-      descrizione: "Campo da tennis e da calcetto in erba sitetica. Si può usare sia per giocare a tennis che a calcetto",
-      photo: "campoTennisCalcetto.jpg"
-    },{
-      nome:"Campo da Calcetto",
-      descrizione: "Campo da Calcetto grande, ideale per giocare 5 contro 5",
-      photo: "campoCalcetto1.jpg"
-    },{
-      nome:"Campo da Calcetto",
-      descrizione: "Campo da Calcetto grande, ideale per giocare 5 contro 5",
-      photo: "campoCalcetto.jpg"
-    },{
-      nome:"Area giochi",
-      descrizione: "Un'area all'aperto dedicata a giochi e attività ricreative",
-      photo: "areaGiochi.jpg"
-    },{
-      nome: "Parcheggio",
-      descrizione: "Ampio parcheggio all' entrata della struttura.",
-      photo: "parcheggio.jpg"
-    },{
-      nome:"Palestra",
-      descrizione: "Palestra interna alla struttura con attrezzi per fitness e body-building.",
-      photo: "palestra.jpg"
-    }
-  ];
+  immagini: any[] = [];
 
-  constructor() { }
+  constructor(private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Sporting Club - Struttura");
+
+    this.immagini = [
+      {
+        src: "../../assets/immagini/home.jpeg",
+        alt: "Home",
+        title: "Home"
+      },{
+        src: "../../assets/immagini/areaGiochi.jpg",
+        alt: "Area giochi",
+        title: "AreaGiochi"
+      },{
+        src: "../../assets/immagini/campoCalcetto.jpg",
+        alt: "Campo calcetto",
+        title: "Campo calcetto"
+      },{
+        src: "../../assets/immagini/campoCalcetto1.jpg",
+        alt: "Campo calcetto",
+        title: "Campo calcetto"
+      },{
+        src: "../../assets/immagini/campoTennis1_1.jpg",
+        alt: "Campo Tennis",
+        title: "Campo Tennis"
+      },{
+        src: "../../assets/immagini/campoTennis1.jpg",
+        alt: "Campo Tennis",
+        title: "Campo Tennis"
+      },{
+        src: "../../assets/immagini/campoTennis2.jpg",
+        alt: "Campo Tennis",
+        title: "Campo Tennis"
+      },{
+        src: "../../assets/immagini/campoTennisCalcetto.jpg",
+        alt: "Campo Tennis Calcetto",
+        title: "Campo Tennis Calcetto"
+      },{
+        src: "../../assets/immagini/campoTennisCoperto.jpg",
+        alt: "Campo Tennis Coperto",
+        title: "Campo Tennis Coperto"
+      },{
+        src: "../../assets/immagini/campoTennisNotte.jpeg",
+        alt: "Campo Tennis Notte",
+        title: "Campo Tennis Notte"
+      },{
+        src: "../../assets/immagini/palestra1.jpeg",
+        alt: "Palestra",
+        title: "Palestra"
+      },{
+        src: "../../assets/immagini/palestra2.jpeg",
+        alt: "Palestra",
+        title: "Palestra"
+      },{
+        src: "../../assets/immagini/palestra3.jpeg",
+        alt: "Palestra",
+        title: "Palestra"
+      },{
+        src: "../../assets/immagini/parcheggio.jpg",
+        alt: "Parcheggio",
+        title: "Parcheggio"
+      }
+    ];
 
   }
-
 }

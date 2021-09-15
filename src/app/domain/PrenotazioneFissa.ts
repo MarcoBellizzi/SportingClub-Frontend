@@ -11,5 +11,6 @@ export interface PrenotazioneFissa {
     fasciaOraria: FasciaOraria,
     durata?: number,
     prenotazioniDisdette?: Date[],
-    prenotazioniDisdetteCustom?: Giorno[]
+    prenotazioniDisdetteCustom?: Giorno[],
+    dettagli?: string
 }

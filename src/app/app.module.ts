@@ -12,12 +12,12 @@ import { CardModule } from 'primeng/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
-import { PanelModule } from 'primeng/panel'; 
+import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { TabViewModule } from 'primeng/tabview';
 import { CarouselModule } from 'primeng/carousel';
-
+import { GalleriaModule } from 'primeng/galleria';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -33,7 +33,7 @@ import { SugarComponent } from './sugar/sugar.component';
 
 
 @NgModule({
-  declarations: [													
+  declarations: [
     AppComponent,
       LoginComponent,
       HomeComponent,
@@ -63,7 +63,8 @@ import { SugarComponent } from './sugar/sugar.component';
     DialogModule,
     DropdownModule,
     TabViewModule,
-    CarouselModule
+    CarouselModule,
+    GalleriaModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
