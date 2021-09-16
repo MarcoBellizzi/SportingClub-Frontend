@@ -13,8 +13,6 @@ export class StrutturaComponent implements OnInit {
   constructor(private titleService: Title) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Sporting Club - Struttura");
-
     this.immagini = [
       {
         src: "../../assets/immagini/home.jpeg",
