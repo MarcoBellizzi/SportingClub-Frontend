@@ -12,8 +12,8 @@ import { AtletaService } from '../services/atleta.service';
 })
 export class LoginComponent implements OnInit {
 
-  telefono?: number ;
-  password: string = "";
+  telefono?: number;
+  password?: string;
 
   constructor(
     private route: Router,

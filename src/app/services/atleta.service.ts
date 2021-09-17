@@ -12,7 +12,7 @@ export class AtletaService {
     private httpClient: HttpClient
   ) { }
 
-  login(telefono:number|undefined, password: string): Observable<Atleta> {
+  login(telefono:number|undefined, password: string|undefined): Observable<Atleta> {
     return this.httpClient.get<Atleta>(`${environment.API_URL}/sporting/login?telefono=${telefono}&password=${password}`);
   }
 
