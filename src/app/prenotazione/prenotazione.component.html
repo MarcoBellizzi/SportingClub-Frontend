@@ -4,22 +4,20 @@
 
   <app-struttura></app-struttura>
 
-  <div style="margin-left: 3rem; margin-right: 3rem; margin-top: 1rem; padding-bottom: 2rem;">
+  <div style="margin-top: 1rem;">
     <div *ngIf="atleta.admin" style="margin-bottom: 20px;">
-      <button pButton class="p-button-secondary" label="Modifica Prenotazioni fisse"
-        style="margin-right: 50px; margin-bottom: 20px;" (click)="visualizzaPrenotazioniFisse=true">
-      </button>
-
-      <strong>Legenda :</strong>
-
-      <button pButton class="p-button-info" label="Atleta" style="margin-right: 10px;">
-      </button>
-      <button pButton class="p-button-warning" label="Maestro" style="margin-right: 10px;">
-      </button>
-      <button pButton class="p-button-help" label="Libera" style="margin-right: 10px;">
-      </button>
-      <button pButton class="p-button-danger" label="Fissa" style="margin-right: 10px;">
-      </button>
+      <div style="margin-right: 20px; margin-left: 20px; margin-bottom: 20px;" >
+        <div>
+          <button pButton class="p-button-secondary" label="Modifica Prenotazioni fisse" (click)="visualizzaPrenotazioniFisse=true"></button>
+        </div>
+        <div style="margin-top: 20px;">
+          <span style="margin-right: 20px;"><strong>Legenda :</strong></span>
+          <button pButton class="p-button-info" label="Atleta" style="margin-right: 10px;"></button>
+          <button pButton class="p-button-warning" label="Maestro" style="margin-right: 10px;"></button>
+          <button pButton class="p-button-help" label="Libera" style="margin-right: 10px;"></button>
+          <button pButton class="p-button-danger" label="Fissa" style="margin-right: 10px;"></button>
+        </div>
+      </div>
     </div>
 
     <div style="text-align: center; margin-bottom: 1rem;">
@@ -27,8 +25,8 @@
         Giorno &nbsp; &nbsp; <p-calendar [(ngModel)]="giorno" (onSelect)="aggiornaPrenotazioni()"></p-calendar>
       </div>
     </div>
-    <p-table [columns]="campi" [scrollable]="true" [value]="fasceOrarie" styleClass="p-datatable-sm"
-      scrollHeight="400px">
+
+    <p-table [columns]="campi" [scrollable]="true" [value]="fasceOrarie" styleClass="p-datatable-sm" scrollHeight="100%">
       <ng-template pTemplate="colgroup" let-varCampo>
         <colgroup>
           <col style="width:120px">

@@ -425,8 +425,6 @@ export class PrenotazioneComponent implements OnInit {
                 nome = "Prenotato"
               }
             }
-
-
         }
       }
     });

@@ -9,3 +9,7 @@
 .col-12 {
   padding-left: 0px; padding-right: 0px;
 }
+
+::ng-deep .p-card .p-card-content {
+  color: black !important;
+}
